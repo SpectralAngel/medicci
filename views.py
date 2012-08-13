@@ -3,7 +3,6 @@ from django.views.generic import TemplateView
 from django.utils import timezone
 from datetime import timedelta, datetime
 from contactos.models import Cita
-from django.contrib.auth.models import User
 
 class IndexView(TemplateView):
     

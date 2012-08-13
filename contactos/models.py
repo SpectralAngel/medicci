@@ -66,8 +66,10 @@ class Contacto(models.Model):
     nacimiento = models.DateField(default=date.today)
     web = models.CharField(max_length=200, blank=True)
     ciudad = models.ForeignKey(Municipio, related_name="contactos", blank=True)
-    especialidades = models.ManyToManyField(Especialidad, related_name="contactos", blank=True)
-    cuentas = models.ManyToManyField(Cuenta, related_name="contactos", blank=True)
+    especialidades = models.ManyToManyField(Especialidad,
+                                           related_name="contactos", blank=True)
+    cuentas = models.ManyToManyField(Cuenta, related_name="contactos",
+                                    blank=True)
     vendedores = models.ManyToManyField(User, related_name='contactos')
     
     @permalink
@@ -210,8 +212,10 @@ class Visita(models.Model):
     contacto = models.ForeignKey(Contacto, related_name="visitas")
     fecha_y_hora = models.DateTimeField(default=timezone.now)
     comentarios = models.TextField(blank=True, null=True)
-    productos = models.ManyToManyField(Producto, related_name="visitas", blank=True)
-    usuario = models.ForeignKey(User, blank=True, null=True, related_name='visitas')
+    productos = models.ManyToManyField(Producto, related_name="visitas",
+                                       blank=True)
+    usuario = models.ForeignKey(User, blank=True, null=True,
+                                related_name='visitas')
     
     @permalink
     def get_absolute_url(self):

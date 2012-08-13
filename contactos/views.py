@@ -5,13 +5,13 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.shortcuts import get_object_or_404
 from django.views.generic import (ListView, UpdateView, DetailView, CreateView,
-                                  RedirectView, View, TemplateView)
+                                  RedirectView, View)
 from django.contrib import messages
 from django.utils import timezone
 from contactos.models import (Contacto, Especialidad, Cita, Horario, Ciclo,
                             Departamento, Municipio, Direccion, Telefono, Email,
                             Visita, Material, MaterialUtilizado)
-from medicci.contactos.forms import (ContactoForm, VisitaForm, CitaForm,
+from contactos.forms import (ContactoForm, VisitaForm, CitaForm,
                             TelefonoForm, EmailForm, DireccionForm,
                             MaterialUtilizadoForm)
 
@@ -78,7 +78,7 @@ class BaseCreateView(CreateView, LoginRequiredView):
     
     def get_form_kwargs(self):
         
-        """Agrega la :class:`contacto` obtenida como el valor a utilizar en el
+        """Agrega la :class:`Contacto` obtenida como el valor a utilizar en el
         formulario que será llenado posteriormente"""
 
         kwargs = super(BaseCreateView, self).get_form_kwargs()
@@ -89,7 +89,7 @@ class BaseCreateView(CreateView, LoginRequiredView):
     
     def dispatch(self, *args, **kwargs):
         
-        """Obtiene la :class:`contacto` que se entrego como argumento en la
+        """Obtiene el :class:`Contacto` que se entrego como argumento en la
         url"""
 
         self.contacto = get_object_or_404(Contacto, pk=kwargs['contacto'])
@@ -97,7 +97,7 @@ class BaseCreateView(CreateView, LoginRequiredView):
     
     def form_valid(self, form):
         
-        """Guarda el objeto generado espeficando la :class:`contacto` obtenida
+        """Guarda el objeto generado espeficando el :class:`Contacto` obtenido
         de los argumentos y el :class:`User` que esta utilizando la aplicación
         """
 
@@ -173,7 +173,7 @@ class MaterialUtilizadoCreateView(CreateView, LoginRequiredView):
     model = MaterialUtilizado
     form_class = MaterialUtilizadoForm
     template_name = 'jqm/form.html'
-
+    
     def get_context_data(self, **kwargs):
         
         context = super(MaterialUtilizadoCreateView, self).get_context_data(**kwargs)

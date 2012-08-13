@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import patterns, url
-from medicci.contactos.views import (
+from contactos.views import (
   ContactoCreateView, ContactoDetailView, ContactoIndexView, ContactoUpdateView,
   VisitaCreateView, VisitaDetailView, VisitaUpdateView, 
   CitaCreateView, CitaDetailView, CitaVisitarView, CitaUpdateView,
-  TelefonoCreateView, EmailCreateView, MaterialUtilizadoCreateView, DireccionCreateView)
+  TelefonoCreateView, EmailCreateView, MaterialUtilizadoCreateView,
+  DireccionCreateView)
 
 urlpatterns = patterns('',
     

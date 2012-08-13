@@ -4,8 +4,7 @@ from django.contrib.auth.models import User
 from contactos.models import (Contacto, Especialidad, Cita, Horario, Ciclo,
                             Departamento, Municipio, Direccion, Telefono, Email,
                             Visita, Material, MaterialUtilizado)
-from contactos.widgets import (CalBoxWidget, SlideBoxWidget, DateBoxWidget,
-                                SlideTimeBoxWidget)
+from contactos.widgets import (DateBoxWidget, SlideTimeBoxWidget)
 
 class ContactoForm(forms.ModelForm):
     
