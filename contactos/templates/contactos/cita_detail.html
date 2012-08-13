@@ -1,0 +1,14 @@
+{% extends 'jqm/simple.html' %}
+{% block title %}Cita con {{ cita.contacto }}{% endblock %}
+{% block content %}
+  <ul data-role="listview">
+    <li><strong>Fecha y Hora:</strong> {{ cita.fecha_y_hora }}</li>
+    <li><strong>Motivos:</strong> {{ cita.motivo }}</li>
+    <li><a href="{% url contacto-ver cita.contacto.id %}">Ver Contacto</a></li>
+ </ul>
+{% endblock %}
+
+{% block navmenu %}
+<li><a href="{% url cita-editar cita.id %}">Editar Cita</a></li>
+<li><a href="{% url cita-visitar cita.id %}">Efectuar Visita</a></li>
+{% endblock %}

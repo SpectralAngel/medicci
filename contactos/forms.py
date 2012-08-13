@@ -1,0 +1,73 @@
+# -*- coding: utf-8 -*-
+from django import forms
+from django.contrib.auth.models import User
+from contactos.models import (Contacto, Especialidad, Cita, Horario, Ciclo,
+                            Departamento, Municipio, Direccion, Telefono, Email,
+                            Visita, Material, MaterialUtilizado)
+from contactos.widgets import (CalBoxWidget, SlideBoxWidget, DateBoxWidget,
+                                SlideTimeBoxWidget)
+
+class ContactoForm(forms.ModelForm):
+    
+    class Meta:
+        
+        model = Contacto
+    
+    nacimiento = forms.DateField(widget=DateBoxWidget(), required=False)
+
+class FechaHoraBaseForm(forms.ModelForm):
+
+    fecha_y_hora = forms.DateTimeField(widget=SlideTimeBoxWidget(), required=False)
+
+class ContactoBaseForm(forms.ModelForm):
+    
+    contacto = forms.ModelChoiceField(label="",
+                                  queryset=Contacto.objects.all(),
+                                  widget=forms.HiddenInput(), required=False)
+
+class UsuarioBaseForm(forms.ModelForm):
+    
+    usuario = forms.ModelChoiceField(label="",
+                                  queryset=User.objects.all(),
+                                  widget=forms.HiddenInput(), required=False)
+
+class CitaForm(ContactoBaseForm, UsuarioBaseForm, FechaHoraBaseForm):
+    
+    class Meta:
+        
+        model = Cita
+        exclude = ('visitada', )
+
+class VisitaForm(ContactoBaseForm, UsuarioBaseForm, FechaHoraBaseForm):
+    
+    class Meta:
+        
+        model = Visita
+
+class TelefonoForm(ContactoBaseForm):
+
+    class Meta:
+        
+        model = Telefono
+
+class EmailForm(ContactoBaseForm):
+    
+    class Meta:
+        
+        model = Email
+
+class DireccionForm(ContactoBaseForm):
+    
+    class Meta:
+        
+        model = Direccion
+
+class MaterialUtilizadoForm(forms.ModelForm):
+    
+    class Meta:
+        
+        model = MaterialUtilizado
+    
+    visita = forms.ModelChoiceField(label="",
+                                  queryset=Visita.objects.all(),
+                                  widget=forms.HiddenInput(), required=False)

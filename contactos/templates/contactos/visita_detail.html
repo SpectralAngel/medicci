@@ -1,0 +1,32 @@
+{% extends 'jqm/simple.html' %}
+{% load humanize %}
+{% block title %}Visita a {{ visita.contacto }}{% endblock %}
+{% block content %}
+  <ul data-role="listview">
+    <li><strong>Fecha y Hora:</strong> {{ visita.fecha_y_hora }}</li>
+    <li><strong>Comentarios:</strong> {{ visita.comentarios }}</li>
+    <li><h3>Costo Total de la Visita: {{ visita.costo|intcomma }}</h3></li>
+    <li><a href="{% url contacto-ver visita.contacto.id %}">Ver Contacto</a></li>
+    <li>
+        <h3>Productos Promocionados</h3>
+        <ul>
+            {% for producto in visita.productos.all %}
+            <li><a href="">{{ producto }}</a></li>
+            {% endfor %}
+        </ul>
+    </li>
+    <li>
+        <h3>Materiales Utilizados</h3>
+        <ul>
+            {% for material in visita.materiales.all %}
+            <li><a href="">{{ material }}</a></li>
+            {% endfor %}
+        </ul>
+    </li>
+ </ul>
+{% endblock %}
+
+{% block navmenu %}
+<li><a href="{% url visita-editar visita.id %}">Editar Visita</a></li>
+<li><a href="{% url material-utilizar visita.id %}">Agregar Material</a></li>
+{% endblock %}

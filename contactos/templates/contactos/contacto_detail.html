@@ -1,0 +1,58 @@
+{% extends 'jqm/simple.html' %}
+{% block title %}{{ contacto }}{% endblock %}
+{% block content %}
+  <ul data-role="listview">
+    <li><strong>Fecha de Nacimiento:</strong> {{ contacto.nacimiento }}</li>
+    <li><strong>Ciudad:</strong> {{ contacto.ciudad }}</li>
+    <li><strong>Especialidades:</strong> {% for especialidad in contacto.especialiades.all %}{{ especialidad }}{% endfor %}</li>
+    {% for telefono in contacto.telefonos.all %}
+    <li><strong>{{ telefono.get_tipo_display }}:</strong> {{ telefono.numero }}</li>
+    {% endfor %}
+    <li>{{ contacto.web|urlize }}</li>
+    {% for email in contacto.emails.all %}
+    <li><strong>{{ email.get_tipo_display }}:</strong> {{ email.correo|urlize }}</li>
+    {% endfor %}
+    <li>
+      <div data-role="collapsible">
+        <h3>Cuentas</h3>
+        <ul data-role="listview">
+        {% for cuenta in contacto.cuentas.all %}
+          <li><a href="">{{ cuenta }}</a></li>
+        {% endfor %}
+        </ul>
+      </div>
+    </li>
+    <li>
+      <div data-role="collapsible">
+        <h3>Citas</h3>
+        <ul data-role="listview">
+        {% for cita in contacto.citas.all %}
+          <li><a href="{% url cita-ver cita.id %}">{{ cita.fecha_y_hora }} con {{ cita.usuario }}</a></li>
+        {% endfor %}
+        </ul>
+      </div>
+    </li>
+    <li>
+      <div data-role="collapsible">
+        <h3>Visitas</h3>
+        <ul data-role="listview">
+        {% for visita in contacto.visitas.all %}
+          <li><a href="{% url visita-ver visita.id %}">{{ visita.fecha_y_hora }} de {{ visita.usuario }}</a></li>
+        {% endfor %}
+        </ul>
+      </div>
+    </li>
+  </ul>
+{% endblock %}
+
+{% block navmenu %}
+<li><a href="{% url contacto-editar contacto.id %}">Editar Contacto</a></li>
+<li><a href="{% url telefono-agregar contacto.id %}">Agregar Direcci&oacute;n</a></li>
+<li><a href="{% url telefono-agregar contacto.id %}">Agregar Tel&eacute;fono</a></li>
+<li><a href="{% url email-agregar contacto.id %}">Agregar Email</a></li>
+<li><a href="{% url cita-agregar contacto.id %}">Agendar Cita</a></li>
+<li><a href="{% url visita-agregar contacto.id %}">Registrar Visita</a></li>
+{% if not contacto in user.contactos.all %}
+<li><a href="{% url visita-agregar contacto.id %}">Agregar a Mis Contactos</a></li>
+{% endif %}
+{% endblock %}
