@@ -126,6 +126,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
 	# Own applications
 	'contactos',
+    'google',
 	# Third Party Apps
     'south',
 )

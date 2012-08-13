@@ -10,7 +10,7 @@ from django.contrib import messages
 from django.utils import timezone
 from contactos.models import (Contacto, Especialidad, Cita, Horario, Ciclo,
                             Departamento, Municipio, Direccion, Telefono, Email,
-                            Visita, Material, MaterialUtilizado)
+                            Visita, Material, MaterialUtilizado, Cuenta)
 from contactos.forms import (ContactoForm, VisitaForm, CitaForm,
                             TelefonoForm, EmailForm, DireccionForm,
                             MaterialUtilizadoForm)
@@ -61,7 +61,7 @@ class ContactoUpdateView(UpdateView, LoginRequiredView):
         return context
         
 class ContactoDetailView(DetailView, LoginRequiredView):
-        
+    
     model = Contacto
     context_object_name = 'contacto'
     
@@ -107,6 +107,11 @@ class BaseCreateView(CreateView, LoginRequiredView):
         self.object.save()
         
         return HttpResponseRedirect(self.get_success_url())
+
+class CuentaDetailView(DetailView, LoginRequiredView):
+    
+    model = Cuenta
+    context_object_name = 'cuenta'
 
 class CitaDetailView(DetailView, LoginRequiredView):
     
