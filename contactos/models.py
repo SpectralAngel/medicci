@@ -71,6 +71,8 @@ class Contacto(models.Model):
     cuentas = models.ManyToManyField(Cuenta, related_name="contactos",
                                     blank=True)
     vendedores = models.ManyToManyField(User, related_name='contactos')
+    agregado = models.DateField(default=date.today)
+    activo = models.BooleanField(default=True)
     
     @permalink
     def get_absolute_url(self):
@@ -129,14 +131,14 @@ class Telefono(models.Model):
 
 class Email(models.Model):
     
-    TIPOS = (
+    TIPOS_EMAIL = (
         ('C', u'Casa'),
         ('T', u'Trabajo'),
         ('O', u'Otro'),
     )
     
     contacto = models.ForeignKey(Contacto, related_name="emails")
-    tipo = models.CharField(max_length=1, choices=TIPOS, blank=True)
+    tipo = models.CharField(max_length=1, choices=TIPOS_EMAIL, blank=True)
     correo = models.CharField(max_length=200, blank=True)
     
     @permalink
@@ -195,6 +197,7 @@ class Cita(models.Model):
     usuario = models.ForeignKey(User, blank=True, null=True,
                                    related_name='citas')
     motivo = models.TextField(blank=True, null=True)
+    publicada = models.BooleanField(default=False)
     
     @permalink
     def get_absolute_url(self):

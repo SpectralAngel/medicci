@@ -5,7 +5,7 @@ from contactos.views import (
   VisitaCreateView, VisitaDetailView, VisitaUpdateView, 
   CitaCreateView, CitaDetailView, CitaVisitarView, CitaUpdateView,
   TelefonoCreateView, EmailCreateView, MaterialUtilizadoCreateView,
-  DireccionCreateView, CuentaDetailView)
+  DireccionCreateView, CuentaDetailView, Calendario)
 
 urlpatterns = patterns('',
     
@@ -56,4 +56,7 @@ urlpatterns = patterns('',
     
     url(r'^(?P<contacto>\d+)/email/agregar$',
         EmailCreateView.as_view(), name='email-agregar'),
+    
+    url(r'^calendario/(?P<year>\d+)/(?P<month>\d+)$',
+        Calendario.as_view(), name='calendario'),
 )

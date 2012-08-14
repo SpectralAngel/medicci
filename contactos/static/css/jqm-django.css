@@ -38,15 +38,21 @@
         display: none;
     }
 }
+.month {
+    border-collapse:collapse;
+}
+.month, .month th, .month td {
+    border: 1px solid black;
+}
+.month ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
 
-input, textarea {
-  &.placeholder {
-    color: #A9A9A9;
-  }
-  &:-moz-placeholder {
-    color: #A9A9A9;
-  }
-  &::-webkit-input-placeholder {
-    color: #A9A9A9;
-  }
+.month ul li {
+    margin: 0;
+}
+.month td, .month th {
+    padding: 5px;
 }

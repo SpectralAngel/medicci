@@ -11,6 +11,7 @@ class ContactoForm(forms.ModelForm):
     class Meta:
         
         model = Contacto
+        exclude = ('agregado', 'activo', )
     
     nacimiento = forms.DateField(widget=DateBoxWidget(), required=False)
 
@@ -35,7 +36,7 @@ class CitaForm(ContactoBaseForm, UsuarioBaseForm, FechaHoraBaseForm):
     class Meta:
         
         model = Cita
-        exclude = ('visitada', )
+        exclude = ('visitada', 'publicada',)
 
 class VisitaForm(ContactoBaseForm, UsuarioBaseForm, FechaHoraBaseForm):
     

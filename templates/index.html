@@ -12,7 +12,7 @@
       {% for cita in citas.all %}
         <li>
           <a href="{% url cita-ver cita.id %}">
-          <h4>{{ cita.contacto }}</h4>
+         <h4>{{ cita.contacto }}</h4>
           <p>{{ cita.fecha_y_hora }}</p>
           </a>
         </li>
@@ -20,4 +20,8 @@
       </ul>
     </div>
 {% endif %}
+{% endblock %}
+
+{% block navmenu %}
+<li><a href="{% url calendario year month %}">Calendario</a></li>
 {% endblock %}

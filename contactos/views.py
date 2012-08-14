@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.shortcuts import get_object_or_404
 from django.views.generic import (ListView, UpdateView, DetailView, CreateView,
-                                  RedirectView, View)
+                                  RedirectView, View, TemplateView)
 from django.contrib import messages
 from django.utils import timezone
 from contactos.models import (Contacto, Especialidad, Cita, Horario, Ciclo,
@@ -14,6 +14,8 @@ from contactos.models import (Contacto, Especialidad, Cita, Horario, Ciclo,
 from contactos.forms import (ContactoForm, VisitaForm, CitaForm,
                             TelefonoForm, EmailForm, DireccionForm,
                             MaterialUtilizadoForm)
+from datetime import datetime
+from calendar import monthrange, month_name
 
 class LoginRequiredView(View):
     
@@ -272,3 +274,49 @@ class DireccionCreateView(BaseContactoCreateView):
     
     model = Direccion
     form_class = DireccionForm
+
+class Calendario(TemplateView):
+    
+    template_name = 'contactos/calendario.html'
+    
+    def get_context_data(self, **kwargs):
+        
+        context = super(Calendario, self).get_context_data(**kwargs)
+        self.year = int(kwargs['year'])
+        self.month = int(kwargs['month'])
+        # my_calendar_from_month = datetime(self.year, self.month, 1)
+        # my_calendar_to_month = datetime(self.year, self.month,
+        #                                 monthrange(self.year, self.month)[1])
+        citas = Cita.objects.filter(usuario=self.request.user)
+        
+        # Calculate values for the calendar controls. 1-indexed (Jan = 1)
+        my_previous_year = self.year
+        my_previous_month = self.month - 1
+        
+        if my_previous_month == 0:
+            my_previous_year = self.year - 1
+            my_previous_month = 12
+        my_next_year = self.year
+        my_next_month = self.month + 1
+        
+        if my_next_month == 13:
+            my_next_year = self.year + 1
+            my_next_month = 1
+        
+        my_year_after_this = self.year + 1
+        my_year_before_this = self.year - 1
+        
+        context['event_list'] = citas
+        context['month'] = self.month
+        context['month_name'] = month_name[self.month]
+        context['year'] = self.year
+        context['previous_month'] = my_previous_month
+        context['previous_month_name'] = month_name[my_previous_month]
+        context['previous_year'] = my_previous_year
+        context['next_month'] = my_next_month
+        context['next_month_name'] = month_name[my_next_month]
+        context['next_year'] = my_next_year
+        context['year_before_this'] = my_year_before_this
+        context['year_after_this'] = my_year_after_this
+        
+        return context

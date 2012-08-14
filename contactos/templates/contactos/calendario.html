@@ -1,0 +1,7 @@
+{% extends 'jqm/simple.html' %}
+{% load humanize %}
+{% block title %}Calendario{% endblock %}
+{% block content %}
+{% load event_tags %}
+{% event_calendar year month event_list %}
+{% endblock %}
