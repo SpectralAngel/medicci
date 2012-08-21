@@ -6,6 +6,11 @@ $(document).ready( function () {
                 .attr("placeholder", placeholder);
         });
     }
+    
+    $(document).bind('mobileinit',function(){
+        $.mobile.selectmenu.prototype.options.nativeMenu = false;
+    });
+    
     /* mostly this is just sample code for how to trigger code for each page */
     $('div:jqmData(role=\'page\')').live('pagecreate',function(event){
         var page = $(this);

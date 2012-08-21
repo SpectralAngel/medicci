@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-from django.db import models
-from django.utils import timezone
-from django.db.models import permalink
-from django.contrib.auth.models import User
 from datetime import date
+from django.contrib.auth.models import User
+from django.db import models
+from django.db.models import permalink
+from django.db.models.query_utils import Q
+from django.utils import timezone
 
 class Ciclo(models.Model):
     
@@ -60,11 +61,18 @@ class Contacto(models.Model):
         ('F', u'Femenino'),
     )
     
+    TURNOS =(
+        ('N', 'Ninguno'),
+        ('M', 'Mañana'),
+        ('T', 'Tarde'),
+    )
+    
     nombre = models.CharField(max_length=50, blank=True)
     apellido = models.CharField(max_length=50, blank=True)
     sexo = models.CharField(max_length=1, choices=SEXOS, blank=True)
     nacimiento = models.DateField(default=date.today)
     web = models.CharField(max_length=200, blank=True)
+    horario = models.CharField(max_length=1, choices=TURNOS, blank=True)
     ciudad = models.ForeignKey(Municipio, related_name="contactos", blank=True)
     especialidades = models.ManyToManyField(Especialidad,
                                            related_name="contactos", blank=True)
@@ -84,6 +92,32 @@ class Contacto(models.Model):
     def __unicode__(self):
         
         return u"{0} {1}".format(self.nombre, self.apellido)
+    
+    @staticmethod
+    def get_queryset(params):
+        
+        """Construye un :clas:`QuerySet` de manera dinámica para efectuar
+        búsquedas"""
+        
+        nombre = params.get('nombre')
+        apellido = params.get('apellido')
+        cuentas = params.get('cuentas')
+        especialidades = params.get('especialidades')
+        ciudad = params.get('ciudad')
+        qset = Q(pk__gt = 0)
+        
+        if nombre:
+            qset &= Q(nombre__icontains = nombre)
+        if apellido:
+            qset &= Q(apellido__icontains = apellido)
+        if ciudad:
+            qset &= Q(ciudad__id = ciudad)
+        if cuentas:
+            qset &= Q(cuenta__id__in = [c for c in cuentas])
+        if especialidades:
+            qset &= Q(especialidad__id__in = [e for e in especialidades])
+        
+        return qset
 
 class Direccion(models.Model):
     
@@ -151,26 +185,7 @@ class Email(models.Model):
     def __unicode__(self):
         
         return u"{0}".format(self.correo)
-    
-class Horario(models.Model):
-    
-    TURNOS =(
-        ('N', 'Ninguno'),
-        ('M', 'Mañana'),
-        ('T', 'Tarde'),
-    )
-    
-    contacto = models.OneToOneField(Contacto, primary_key=True)
-    dias_de_semana = models.CharField(max_length=1, choices=TURNOS, blank=True)
-    fin_de_semana = models.CharField(max_length=1, choices=TURNOS, blank=True)
-    
-    @permalink
-    def get_absolute_url(self):
-        
-        """Obtiene la URL absoluta"""
-        
-        return 'contacto-ver', [self.contacto.id]
-    
+
 class Producto(models.Model):
     
     nombre = models.CharField(max_length=200, blank=True)
@@ -251,3 +266,11 @@ class MaterialUtilizado(models.Model):
     def __unicode__(self):
         
         return u"{0} {1}".format(self.material, self.costo)
+
+class Venta(models.Model):
+    
+    cuenta = models.ForeignKey(Cuenta, related_name='ventas')
+    producto = models.ForeignKey(Producto, related_name='ventas')
+    fecha = models.DateField(default=date.today)
+    vendedor = models.ForeignKey(User, blank=True, null=True,
+                                   related_name='ventas')

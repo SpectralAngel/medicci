@@ -1,21 +1,19 @@
 # -*- coding: utf-8 -*-
+from calendar import monthrange, month_name
+from contactos.forms import (ContactoForm, VisitaForm, CitaForm, TelefonoForm,
+    EmailForm, DireccionForm, MaterialUtilizadoForm)
+from contactos.models import (Contacto, Especialidad, Cita, Ciclo, Departamento,
+    Municipio, Direccion, Telefono, Email, Visita, Material, MaterialUtilizado,
+    Cuenta)
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
 from django.shortcuts import get_object_or_404
-from django.views.generic import (ListView, UpdateView, DetailView, CreateView,
-                                  RedirectView, View, TemplateView)
-from django.contrib import messages
 from django.utils import timezone
-from contactos.models import (Contacto, Especialidad, Cita, Horario, Ciclo,
-                            Departamento, Municipio, Direccion, Telefono, Email,
-                            Visita, Material, MaterialUtilizado, Cuenta)
-from contactos.forms import (ContactoForm, VisitaForm, CitaForm,
-                            TelefonoForm, EmailForm, DireccionForm,
-                            MaterialUtilizadoForm)
-from datetime import datetime
-from calendar import monthrange, month_name
+from django.utils.decorators import method_decorator
+from django.views.generic import (ListView, UpdateView, DetailView, CreateView,
+    RedirectView, View, TemplateView)
 
 class LoginRequiredView(View):
     

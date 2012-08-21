@@ -2,9 +2,8 @@
 from django import template  
   
 register = template.Library()  
-  
+
 @register.filter(name='field_type')
-  
 def field_type(value):  
     return value.field.__class__.__name__  
    
