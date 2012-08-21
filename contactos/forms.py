@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from django.contrib.auth.models import User
-from contactos.models import (Contacto, Especialidad, Cita, Horario, Ciclo,
-                            Departamento, Municipio, Direccion, Telefono, Email,
-                            Visita, Material, MaterialUtilizado)
+from contactos.models import (Contacto, Especialidad, Cita, Ciclo, Departamento,
+    Municipio, Direccion, Telefono, Email, Visita, Material, MaterialUtilizado,
+    Cuenta)
 from contactos.widgets import (DateBoxWidget, SlideTimeBoxWidget)
 
 class ContactoForm(forms.ModelForm):
