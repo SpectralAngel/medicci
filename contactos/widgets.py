@@ -59,10 +59,10 @@ class SlideTimeBoxWidget(BasicDateTimeBox):
         
         self.attrs['data-options'] = u'{"mode": "slidebox", "overrideDateFormat": "%d/%m/%Y %H:%M", "overrideSlideFieldOrder":["y","m","d","h","i"]}'
 
-class JQMobileModelMultipleChoiceField(forms.ModelMultipleChoiceField):
+class JQMSelectMultiple(forms.SelectMultiple):
     
     def __init__(self, attrs=None):
         
-        super(JQMobileModelMultipleChoiceField, self).__init__(attrs)
+        super(JQMSelectMultiple, self).__init__(attrs)
         
         self.attrs['data-native-menu'] = 'false'

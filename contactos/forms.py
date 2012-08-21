@@ -4,8 +4,7 @@ from django.contrib.auth.models import User
 from contactos.models import (Contacto, Especialidad, Cita, Ciclo, Departamento,
     Municipio, Direccion, Telefono, Email, Visita, Material, MaterialUtilizado,
     Cuenta)
-from contactos.widgets import (DateBoxWidget, SlideTimeBoxWidget,
-                               JQMobileModelMultipleChoiceField)
+from contactos.widgets import (DateBoxWidget, SlideTimeBoxWidget, JQMSelectMultiple)
 
 class ContactoForm(forms.ModelForm):
     
@@ -15,8 +14,9 @@ class ContactoForm(forms.ModelForm):
         exclude = ('agregado', 'activo', )
     
     nacimiento = forms.DateField(widget=DateBoxWidget(), required=False)
-    especialidades = JQMobileModelMultipleChoiceField(
-                                  queryset=Especialidad.objects.all())
+    especialidades = forms.ModelMultipleChoiceField(
+                                  queryset=Especialidad.objects.all(),
+                                  widget=JQMSelectMultiple())
 
 class FechaHoraBaseForm(forms.ModelForm):
 
