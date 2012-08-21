@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
-from contactos.models import (Contacto, Especialidad, Cita, Horario,
-                                      Ciclo, Departamento, Municipio, Direccion,
-                                      Telefono, Email, Visita, Material,
-                                      Producto, MaterialUtilizado)
+from contactos.models import (Contacto, Especialidad, Cita, Ciclo, Departamento,
+                              Municipio, Direccion, Telefono, Email, Visita,
+                              Material, Producto, MaterialUtilizado)
 
 admin.site.register(Contacto)
 admin.site.register(Cita)
-admin.site.register(Horario)
 admin.site.register(Ciclo)
 admin.site.register(Departamento)
 admin.site.register(Municipio)
