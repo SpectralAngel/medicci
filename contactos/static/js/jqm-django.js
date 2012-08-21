@@ -1,3 +1,6 @@
+$(document).bind('mobileinit',function(){
+    $.mobile.selectmenu.prototype.options.nativeMenu = false;
+});
 $(document).ready( function () {
     if (Modernizr.input.placeholder) {
         $("input").each(function(index, element) {
@@ -6,10 +9,6 @@ $(document).ready( function () {
                 .attr("placeholder", placeholder);
         });
     }
-    
-    $(document).bind('mobileinit',function(){
-        $.mobile.selectmenu.prototype.options.nativeMenu = false;
-    });
     
     /* mostly this is just sample code for how to trigger code for each page */
     $('div:jqmData(role=\'page\')').live('pagecreate',function(event){
