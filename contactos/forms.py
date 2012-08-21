@@ -17,6 +17,12 @@ class ContactoForm(forms.ModelForm):
     especialidades = forms.ModelMultipleChoiceField(
                                   queryset=Especialidad.objects.all(),
                                   widget=JQMSelectMultiple())
+    vendedores = forms.ModelMultipleChoiceField(
+                                  queryset=User.objects.all(),
+                                  widget=JQMSelectMultiple())
+    cuentas = forms.ModelMultipleChoiceField(
+                                  queryset=Cuenta.objects.all(),
+                                  widget=JQMSelectMultiple())
 
 class FechaHoraBaseForm(forms.ModelForm):
 
