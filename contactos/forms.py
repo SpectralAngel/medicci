@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth.models import User
 from contactos.models import (Contacto, Especialidad, Cita, Ciclo, Departamento,
     Municipio, Direccion, Telefono, Email, Visita, Material, MaterialUtilizado,
-    Cuenta)
+    Cuenta, Asociacion)
 from contactos.widgets import (DateBoxWidget, SlideTimeBoxWidget, JQMSelectMultiple)
 
 class ContactoForm(forms.ModelForm):
@@ -23,6 +23,10 @@ class ContactoForm(forms.ModelForm):
     cuentas = forms.ModelMultipleChoiceField(
                                   queryset=Cuenta.objects.all(),
                                   widget=JQMSelectMultiple())
+    asocioaciones = forms.ModelMultipleChoiceField(
+                                  queryset=Asociacion.objects.all(),
+                                  widget=JQMSelectMultiple())
+
 
 class FechaHoraBaseForm(forms.ModelForm):
 

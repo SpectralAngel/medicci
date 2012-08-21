@@ -43,6 +43,14 @@ class Especialidad(models.Model):
         
         return u"{0}".format(self.nombre)
 
+class Asociacion(models.Model):
+    
+    nombre = models.CharField(max_length=200, blank=True)
+    
+    def __unicode__(self):
+        
+        return u"{0}".format(self.nombre)
+
 class Hospital(models.Model):
     
     TIPOS_DE_CUENTA = (
@@ -91,6 +99,7 @@ class Contacto(models.Model):
     cuentas = models.ManyToManyField(Cuenta, related_name="contactos",
                                     blank=True)
     vendedores = models.ManyToManyField(User, related_name='contactos')
+    asociaciones = models.ManyToManyField(Asociacion, related_name='contactos')
     agregado = models.DateField(default=date.today)
     activo = models.BooleanField(default=True)
     
@@ -130,6 +139,13 @@ class Contacto(models.Model):
             qset &= Q(especialidad__id__in = [e for e in especialidades])
         
         return qset
+
+class Clinica(models.Model):
+    
+    contacto = models.ForeignKey(Contacto, related_name="clinicas")
+    direccion = models.TextField(blank=True, null=True)
+    telefono = models.CharField(max_length=200, blank=True)
+    fax = models.CharField(max_length=200, blank=True)
 
 class Direccion(models.Model):
     
