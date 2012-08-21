@@ -43,16 +43,28 @@ class Especialidad(models.Model):
         
         return u"{0}".format(self.nombre)
 
-class Cuenta(models.Model):
+class Hospital(models.Model):
     
     TIPOS_DE_CUENTA = (
         ('H', u'Hospital'),
-        ('D', u'Doctor'),
         ('C', u'Centro de Imágenes'),
+        ('L', u'Laboratorio'),
     )
     
     nombre = models.CharField(max_length=200, blank=True)
-    tipo = models.CharField(max_length=1, blank=True)
+    
+    def __unicode__(self):
+        
+        return u"{0}".format(self.nombre)
+
+class Cuenta(models.Model):
+    
+    hospital = models.ForeignKey(Hospital, related_name="cuentas")
+    nombre = models.CharField(max_length=200, blank=True)
+    
+    def __unicode__(self):
+        
+        return u"{0} de {1}".format(self.nombre, self.hospital.nombre)
     
 class Contacto(models.Model):
     
