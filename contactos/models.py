@@ -23,7 +23,7 @@ class Departamento(models.Model):
     def __unicode__(self):
         
         return u"{0}".format(self.nombre)
-    
+
 class Municipio(models.Model):
     
     departamento = models.ForeignKey(Departamento, related_name="municipios")
@@ -31,7 +31,7 @@ class Municipio(models.Model):
     
     def __unicode__(self):
         
-        return u"{0}".format(self.nombre)
+        return u"{0}, {1}".format(self.departamento.nombre, self.nombre)
 
 class Especialidad(models.Model):
     
@@ -70,6 +70,7 @@ class Hospital(models.Model):
     )
     
     zona = models.ForeignKey(Zona, related_name='hospitales')
+    municipio = models.ForeignKey(Municipio, related_name='hospitales')
     nombre = models.CharField(max_length=200, blank=True)
     numero = models.CharField(max_length=200, blank=True)
     direccion = models.CharField(max_length=200, blank=True)

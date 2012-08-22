@@ -40,19 +40,28 @@ class ContactoCreateView(CreateView, LoginRequiredView):
     model = Contacto
     form_class = ContactoForm
     template_name = 'jqm/form.html'
-
+    
     def get_context_data(self, **kwargs):
         
         context = super(ContactoCreateView, self).get_context_data(**kwargs)
         context['title'] = u"Medicci - Agregar Contacto"
         return context
     
+    def get_form(self, form_class):
+        
+        form = CreateView.get_form(self, form_class)
+        zona =  self.request.user.profile.zona
+        messages.warning(self.request, u"Aún no ha configurado su Zona, se muestran todos los Hospitales")
+        if zona != None:
+            form.hospitales.queryset = self.request.user.profile.zona.hospitales
+        return form
+    
     def form_valid(self, form):
         
         """Guarda el objeto generado :class:`User` que esta utilizando la aplicación
         como vendedor asignado a este contacto
         """
-
+        
         self.object = form.save(commit=False)
         self.object.vendedores.add(self.request.user)
         self.object.save()
@@ -63,9 +72,8 @@ class ContactoUpdateView(UpdateView, LoginRequiredView):
     
     model = Contacto
     form_class = ContactoForm
-    
     template_name = 'jqm/form.html'
-
+    
     def get_context_data(self, **kwargs):
         
         context = super(ContactoUpdateView, self).get_context_data(**kwargs)
@@ -81,7 +89,7 @@ class BaseCreateView(CreateView, LoginRequiredView):
     
     """Permite llenar el formulario de una clase que requiera
     :class:`Contacto`s y :class:`User`s de manera previa"""
-
+    
     def get_context_data(self, **kwargs):
         
         context = super(BaseCreateView, self).get_context_data(**kwargs)
@@ -112,7 +120,7 @@ class BaseCreateView(CreateView, LoginRequiredView):
         """Guarda el objeto generado espeficando el :class:`Contacto` obtenido
         de los argumentos y el :class:`User` que esta utilizando la aplicación
         """
-
+        
         self.object = form.save(commit=False)
         self.object.contacto = self.contacto
         self.usuario = self.request.user
@@ -172,7 +180,7 @@ class VisitaCreateView(BaseCreateView):
     model = Visita
     form_class = VisitaForm
     template_name = 'jqm/form.html'
-
+    
     def get_context_data(self, **kwargs):
         
         context = super(VisitaCreateView, self).get_context_data(**kwargs)
@@ -232,7 +240,7 @@ class BaseContactoCreateView(CreateView, LoginRequiredView):
     :class:`Contacto`s de manera previa - DRY"""
     
     template_name = 'jqm/form.html'
-
+    
     def get_context_data(self, **kwargs):
         
         context = super(BaseContactoCreateView, self).get_context_data(**kwargs)
@@ -263,7 +271,7 @@ class BaseContactoCreateView(CreateView, LoginRequiredView):
         """Guarda el objeto generado espeficando la :class:`contacto` obtenida
         de los argumentos y el :class:`User` que esta utilizando la aplicación
         """
-
+        
         self.object = form.save(commit=False)
         self.object.contacto = self.contacto
         self.object.save()
@@ -350,7 +358,7 @@ class ProfileDetailView(DetailView, LoginRequiredView):
         return self.request.user.profile
 
 class FinalizarConfiguracion(RedirectView, LoginRequiredView):
-     
+    
     permanent = False
     
     def get_redirect_url(self, **kwargs):
