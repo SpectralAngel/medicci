@@ -15,8 +15,6 @@ class ContactoForm(forms.ModelForm):
         exclude = ('agregado', 'activo', )
     
     nacimiento = forms.DateField(widget=DateBoxWidget(), required=False)
-    sexo = forms.ChoiceField(widget=JQMSelect())
-    horario = forms.ChoiceField(widget=JQMSelect())
     especialidades = forms.ModelMultipleChoiceField(
                                   queryset=Especialidad.objects.all(),
                                   widget=JQMSelectMultiple())
