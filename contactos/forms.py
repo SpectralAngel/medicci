@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth.models import User
 from contactos.models import (Contacto, Especialidad, Cita, Ciclo, Departamento,
     Municipio, Direccion, Telefono, Email, Visita, Material, MaterialUtilizado,
-    Cuenta, Asociacion, Profile, Zona)
+    Cuenta, Asociacion, Profile, Zona, Hospital)
 from contactos.widgets import (DateBoxWidget, SlideTimeBoxWidget, JQMSelectMultiple,
     JQMSelect)
 
@@ -15,19 +15,20 @@ class ContactoForm(forms.ModelForm):
         exclude = ('agregado', 'activo', )
     
     nacimiento = forms.DateField(widget=DateBoxWidget(), required=False)
+    sexo = forms.ChoiceField(widget=JQMSelect())
+    horario = forms.ChoiceField(widget=JQMSelect())
     especialidades = forms.ModelMultipleChoiceField(
                                   queryset=Especialidad.objects.all(),
                                   widget=JQMSelectMultiple())
     vendedores = forms.ModelMultipleChoiceField(
                                   queryset=User.objects.all(),
                                   widget=JQMSelectMultiple())
-    cuentas = forms.ModelMultipleChoiceField(
-                                  queryset=Cuenta.objects.all(),
+    hospitales = forms.ModelMultipleChoiceField(
+                                  queryset=Hospital.objects.all(),
                                   widget=JQMSelectMultiple())
     asocioaciones = forms.ModelMultipleChoiceField(
                                   queryset=Asociacion.objects.all(),
                                   widget=JQMSelectMultiple())
-
 
 class FechaHoraBaseForm(forms.ModelForm):
 

@@ -61,9 +61,11 @@ class Zona(models.Model):
 
 class Hospital(models.Model):
     
-    TIPOS_DE_CUENTA = (
-        ('H', u'Hospital'),
-        ('C', u'Centro de Imágenes'),
+    TIPOS_DE_HOSPITAL = (
+        ('P', u'Privado'),
+        ('G', u'Público'),
+        ('C', u'Clínica'),
+        ('I', u'Centro de Imágenes'),
         ('L', u'Laboratorio'),
     )
     
@@ -71,6 +73,7 @@ class Hospital(models.Model):
     nombre = models.CharField(max_length=200, blank=True)
     numero = models.CharField(max_length=200, blank=True)
     direccion = models.CharField(max_length=200, blank=True)
+    tipo_hospital = models.CharField(max_length=2, blank=True, choices=TIPOS_DE_HOSPITAL)
     
     @permalink
     def get_absolute_url(self):
@@ -114,7 +117,7 @@ class Contacto(models.Model):
     ciudad = models.ForeignKey(Municipio, related_name="contactos", blank=True)
     especialidades = models.ManyToManyField(Especialidad,
                                            related_name="contactos", blank=True)
-    cuentas = models.ManyToManyField(Cuenta, related_name="contactos",
+    hospitales = models.ManyToManyField(Hospital, related_name="contactos",
                                     blank=True)
     vendedores = models.ManyToManyField(User, related_name='contactos')
     asociaciones = models.ManyToManyField(Asociacion, related_name='contactos')

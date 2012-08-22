@@ -46,6 +46,18 @@ class ContactoCreateView(CreateView, LoginRequiredView):
         context = super(ContactoCreateView, self).get_context_data(**kwargs)
         context['title'] = u"Medicci - Agregar Contacto"
         return context
+    
+    def form_valid(self, form):
+        
+        """Guarda el objeto generado :class:`User` que esta utilizando la aplicación
+        como vendedor asignado a este contacto
+        """
+
+        self.object = form.save(commit=False)
+        self.object.vendedores.add(self.request.user)
+        self.object.save()
+        
+        return HttpResponseRedirect(self.get_success_url())
 
 class ContactoUpdateView(UpdateView, LoginRequiredView):
     
