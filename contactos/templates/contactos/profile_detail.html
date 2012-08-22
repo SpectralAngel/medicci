@@ -16,7 +16,7 @@
           <li><a href="{% url hospital hospital.id %}">{{ hospital }}</a></li>
         {% endfor %}
         {% if user.profile.zona != None %}
-          <li><a href="{% url hospital-agregar user.profile.zona.id %}">Agregar Hospital a {{ user.profile.zona }}</a></li>
+          <li><a href="{% url hospital-agregar user.profile.zona.id %}" data-theme="b">Agregar Hospital a {{ user.profile.zona }}</a></li>
         {% endif %}
         </ul>
       </div>

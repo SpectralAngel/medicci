@@ -8,7 +8,10 @@
     <h2>Bienvenido {{ user.get_full_name }}</h2>
     {{ user.profile.skype }}
     {% if not user.profile.configurado %}
-    <a href="{% url profile %}" data-role="button">Configurar</a>
+    <p>Su perfil de vendedor a&uacute;n no se ha configurado, por favor presione
+    	configurar para llenar la informaci&oacute;n faltante.
+    </p>
+    <a href="{% url profile %}" data-role="button" data-theme="b">Configurar</a>
     {% endif %}
     <div data-role="collapsible">
       <h3>Citas Agendadas en los pr&oacute;ximos d&iacute;as</h3>
