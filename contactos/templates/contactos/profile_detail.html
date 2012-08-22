@@ -6,6 +6,12 @@
     <li><strong>Telefono:</strong> {{ user.profile.telefono }}</li>
     <li><strong>Skype:</strong> {{ user.profile.skype }}</li>
     <li>
+      {% if user.profile.zona == None %}
+      Actualmente usted ha especificado la zona en la que efectuar&aacute;
+      sus ventas. Registrar su Zona le permitiendo agregar los Hospitales
+      que se encuentran en la regi&oacute;n para que pueda tener una
+      visi&oacute;n m&aacute;s clara de las oportunidades de negocio en su Zona.
+      {% endif %}
       <div data-role="collapsible" data-collapsed="false">
         <h3>Mi Zona: {{ user.profile.zona }}</h3>
         <ul>

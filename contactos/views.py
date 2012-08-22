@@ -323,7 +323,6 @@ class ProfileUpdateView(UpdateView, LoginRequiredView):
     
     model = Profile
     form_class = ProfileForm
-    template_name = 'jqm/form.html'
     
     def get_object(self, queryset=None):
         

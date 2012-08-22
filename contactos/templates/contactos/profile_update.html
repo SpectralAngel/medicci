@@ -1,0 +1,17 @@
+{% extends 'jqm/simple.html' %}
+{# generic view of a form to be posted to the same URL from which it came parameters "title", "form", "submit" #}
+{% load i18n %}
+{% block title %}{{title}}{% endblock %}
+{% block content %}
+<p>
+	El siguiente Formulario le permite especificar la Zona en la que
+	efectuar&aacute; sus ventas, permitiendole de este modo registrar
+	los Hospitales que se encuentran en la regi&oacute;n para que pueda
+	tener una visi&oacute;n m&aacute;s clara de las oportunidades de
+	negocio en su Zona.
+</p>
+<form action="{{ request.path }}" data-ajax="false" method="post">
+    {% include "jqm/formfields.html" %}
+    <input type="submit" value="{{ submit|default:'Guardar'}}" />
+</form>
+{% endblock %}
