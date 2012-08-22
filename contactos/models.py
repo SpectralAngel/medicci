@@ -51,6 +51,14 @@ class Asociacion(models.Model):
         
         return u"{0}".format(self.nombre)
 
+class Zona(models.Model):
+    
+    nombre = models.CharField(max_length=50)
+    
+    def __unicode__(self):
+        
+        return u"{0}".format(self.nombre)
+
 class Hospital(models.Model):
     
     TIPOS_DE_CUENTA = (
@@ -59,7 +67,17 @@ class Hospital(models.Model):
         ('L', u'Laboratorio'),
     )
     
+    zona = models.ForeignKey(Zona, related_name='hospitales')
     nombre = models.CharField(max_length=200, blank=True)
+    numero = models.CharField(max_length=200, blank=True)
+    direccion = models.CharField(max_length=200, blank=True)
+    
+    @permalink
+    def get_absolute_url(self):
+        
+        """Obtiene la URL absoluta"""
+        
+        return 'hospital', [self.id]
     
     def __unicode__(self):
         
@@ -302,3 +320,15 @@ class Venta(models.Model):
     fecha = models.DateField(default=date.today)
     vendedor = models.ForeignKey(User, blank=True, null=True,
                                    related_name='ventas')
+
+class Profile(models.Model):
+    
+    user = models.OneToOneField(User, primary_key=True)
+    zona = models.ForeignKey(Zona, related_name='perfiles', blank=True, null=True)
+    configurado = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        
+        return self.user.username
+
+User.profile = property(lambda u: Profile.objects.get_or_create(user=u)[0])

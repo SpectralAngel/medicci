@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
-from contactos.models import (Contacto, Especialidad, Cita, Ciclo, Departamento,
-                              Municipio, Direccion, Telefono, Email, Visita,
+from contactos.models import (Contacto, Especialidad, Cita, Ciclo, Departamento, Zona,
+                              Municipio, Direccion, Telefono, Email, Visita, Hospital,
                               Material, Producto, MaterialUtilizado, Asociacion)
 
 admin.site.register(Contacto)
@@ -18,3 +18,5 @@ admin.site.register(MaterialUtilizado)
 admin.site.register(Producto)
 admin.site.register(Especialidad)
 admin.site.register(Asociacion)
+admin.site.register(Hospital)
+admin.site.register(Zona)
