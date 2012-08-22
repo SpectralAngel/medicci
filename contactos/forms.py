@@ -3,8 +3,9 @@ from django import forms
 from django.contrib.auth.models import User
 from contactos.models import (Contacto, Especialidad, Cita, Ciclo, Departamento,
     Municipio, Direccion, Telefono, Email, Visita, Material, MaterialUtilizado,
-    Cuenta, Asociacion)
-from contactos.widgets import (DateBoxWidget, SlideTimeBoxWidget, JQMSelectMultiple)
+    Cuenta, Asociacion, Profile, Zona)
+from contactos.widgets import (DateBoxWidget, SlideTimeBoxWidget, JQMSelectMultiple,
+    JQMSelect)
 
 class ContactoForm(forms.ModelForm):
     
@@ -84,3 +85,14 @@ class MaterialUtilizadoForm(forms.ModelForm):
     visita = forms.ModelChoiceField(label="",
                                   queryset=Visita.objects.all(),
                                   widget=forms.HiddenInput(), required=False)
+
+class ProfileForm(forms.ModelForm):
+    
+    class Meta:
+        
+        model = Profile
+        exclude = ('user', 'configurado',)
+    
+    zona = forms.ModelChoiceField(label="",
+                                  queryset=Zona.objects.all(),
+                                  widget=JQMSelect(), required=False)

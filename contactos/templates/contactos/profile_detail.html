@@ -1,0 +1,27 @@
+{% extends 'jqm/simple.html' %}
+{% block title %}Mi Perfil{% endblock %}
+{% block content %}
+  <ul data-role="listview">
+    <li><strong>Nombre de usuario:</strong> {{ user }}</li>
+    <li><strong>Telefono:</strong> {{ user.profile.telefono }}</li>
+    <li><strong>Skype:</strong> {{ user.profile.skype }}</li>
+    <li>
+      <div data-role="collapsible" data-collapsed="false">
+        <h3>Mi Zona: {{ user.profile.zona }}</h3>
+        <ul>
+          <li><strong>Cantidad de Hospitales:</strong> {{ user.profile.zona.hospitales.count }}</li>
+        </ul>
+        <ul data-role="listview">
+        {% for hospital in user.profile.zona.hospitales.all %}
+          <li><a href="{% url hospital hospital.id %}">{{ hospital }}</a></li>
+        {% endfor %}
+          <li><a href="{% url hospital-agregar user.profile.zona.id %}">Agregar Hospital a {{ user.profile.zona }}</a></li>
+        </ul>
+      </div>
+    </li>
+    <a href="{% url profile-editar  %}" data-role="button">Editar Perfil</a>
+  </ul>
+{% endblock %}
+
+{% block navmenu %}
+{% endblock %}

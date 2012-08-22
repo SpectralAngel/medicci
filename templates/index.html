@@ -5,7 +5,11 @@
     <p>Bienvenido!</p>
     <a data-role="button" href="{% url login %}">Iniciar Sesi&oacute;n</a>
 {% else %}
-    <h2>Bienvenido {{ user.get_full_name }}
+    <h2>Bienvenido {{ user.get_full_name }}</h2>
+    {{ user.profile.skype }}
+    {% if not user.profile.configurado %}
+    <a href="{% url profile %}" data-role="button">Configurar</a>
+    {% endif %}
     <div data-role="collapsible">
       <h3>Citas Agendadas en los pr&oacute;ximos d&iacute;as</h3>
       <ul data-role="listview">

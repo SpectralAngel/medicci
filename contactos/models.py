@@ -325,7 +325,16 @@ class Profile(models.Model):
     
     user = models.OneToOneField(User, primary_key=True)
     zona = models.ForeignKey(Zona, related_name='perfiles', blank=True, null=True)
+    telefono = models.CharField(max_length=200, blank=True)
+    skype = models.CharField(max_length=200, blank=True)
     configurado = models.BooleanField(default=False)
+    
+    @permalink
+    def get_absolute_url(self):
+        
+        """Obtiene la URL absoluta"""
+        
+        return 'profile', []
 
     def __unicode__(self):
         

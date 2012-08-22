@@ -2,17 +2,21 @@
 from django import forms
 from hospital.models import (Administracion, CentroDeImagenes, CentroTecnico,
                              Hospitalizacion, Quirofano)
-from contactos.models import Hospital
+from contactos.models import Hospital, Zona
 
 class HospitalForm(forms.ModelForm):
     
     class Meta:
         
         model = Hospital
-        
+    
+    zona = forms.ModelChoiceField(label="",
+                                  queryset=Zona.objects.all(),
+                                  widget=forms.HiddenInput())
+
 class HospitalBaseForm(forms.ModelForm):
 
-    persona = forms.ModelChoiceField(label="",
+    hospital = forms.ModelChoiceField(label="",
                                   queryset=Hospital.objects.all(),
                                   widget=forms.HiddenInput())
 

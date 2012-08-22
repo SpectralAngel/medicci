@@ -6,7 +6,7 @@ from hospital.views import (HospitalCreateView, HospitalDetailView, HospitalUpda
 
 urlpatterns = patterns('',
     
-    url(r'^agregar$',
+    url(r'^agregar/zona/(?P<zona>\d+)$',
         HospitalCreateView.as_view(), name='hospital-agregar'),
     
     url(r'^(?P<pk>\d+)$',

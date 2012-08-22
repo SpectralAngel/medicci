@@ -12,8 +12,8 @@
 		    <li>Administrador: {{ hospital.administracion.administrador }}</li>
 		    <li>Jefe de Compras: {{ hospital.administracion.jefe_de_compras }}</li>
 		    <li>Socios: {{ hospital.administracion.socios }}</li>
-		    <li><a href="{% url administracion-editar hospital.id %}">Editar</a></li>
 	  	</ul>
+		<a href="{% url administracion-editar hospital.id %}" data-role="button">Editar</a>
 	  	</div>
     </li>
     <li>
@@ -24,8 +24,8 @@
 		  	<li>Posee {{ hospital.hospitalizacion.cuantas_habitaciones_posee }} Habitaciones</li>
 		  	<li>Posee {{ hospital.hospitalizacion.cuantas_habitaciones_dobles_posee }} Habitaciones Dobles</li>
 		  	<li>Posee {{ hospital.hospitalizacion.cuantas_habitaciones_sencillas_posee }} Habitaciones  Sencillas</li>
-		    <li><a href="{% url tecnico-editar hospital.id %}">Editar</a></li>
 	  	</ul>
+	  	<a href="{% url tecnico-editar hospital.id %}" data-role="button">Editar</a>
 	  	</div>
     </li>
     <li>

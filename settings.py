@@ -159,3 +159,5 @@ LOGGING = {
         },
     }
 }
+
+AUTH_PROFILE_MODULE = 'contactos.Profile'

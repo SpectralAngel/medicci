@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from calendar import monthrange, month_name
 from contactos.forms import (ContactoForm, VisitaForm, CitaForm, TelefonoForm,
-    EmailForm, DireccionForm, MaterialUtilizadoForm)
+    EmailForm, DireccionForm, MaterialUtilizadoForm, ProfileForm)
 from contactos.models import (Contacto, Especialidad, Cita, Ciclo, Departamento,
     Municipio, Direccion, Telefono, Email, Visita, Material, MaterialUtilizado,
-    Cuenta)
+    Cuenta, Profile)
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
@@ -318,3 +318,22 @@ class Calendario(TemplateView):
         context['year_after_this'] = my_year_after_this
         
         return context
+
+class ProfileUpdateView(UpdateView, LoginRequiredView):
+    
+    model = Profile
+    form_class = ProfileForm
+    template_name = 'jqm/form.html'
+    
+    def get_object(self, queryset=None):
+        
+        return self.request.user.profile
+
+class ProfileDetailView(DetailView, LoginRequiredView):
+    
+    model = Profile
+    form_class = ProfileForm
+    
+    def get_object(self, queryset=None):
+        
+        return self.request.user.profile

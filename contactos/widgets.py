@@ -66,3 +66,12 @@ class JQMSelectMultiple(forms.SelectMultiple):
         super(JQMSelectMultiple, self).__init__(attrs)
         
         self.attrs['data-native-menu'] = 'false'
+
+
+class JQMSelect(forms.Select):
+    
+    def __init__(self, attrs=None):
+        
+        super(JQMSelect, self).__init__(attrs)
+        
+        self.attrs['data-native-menu'] = 'false'
