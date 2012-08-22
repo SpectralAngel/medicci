@@ -5,7 +5,7 @@ from contactos.models import Hospital
 
 class Administracion(models.Model):
     
-    hospital = models.OneToOneField(Hospital, primary_key=True)
+    hospital = models.OneToOneField(Hospital, primary_key=True, on_delete=models.CASCADE)
     propietario = models.CharField(max_length=50, blank=True)
     administrador = models.CharField(max_length=50, blank=True)
     jefe_de_compras = models.CharField(max_length=50, blank=True)
@@ -22,7 +22,7 @@ Hospital.administracion = property(lambda h: Administracion.objects.get_or_creat
 
 class Quirofano(models.Model):
     
-    hospital = models.OneToOneField(Hospital, primary_key=True)
+    hospital = models.OneToOneField(Hospital, primary_key=True, on_delete=models.CASCADE)
     posee_quirofano = models.NullBooleanField()
     jefe = models.CharField(max_length=50, blank=True)
     instrumentista = models.CharField(max_length=50, blank=True)
@@ -48,7 +48,7 @@ class CentroDeImagenes(models.Model):
         ('D', u'Digital'),
     )
     
-    hospital = models.OneToOneField(Hospital, primary_key=True)
+    hospital = models.OneToOneField(Hospital, primary_key=True, on_delete=models.CASCADE)
     cantidad_de_equipos = models.IntegerField(default=0, blank=True)
     posee_tomografo = models.NullBooleanField()
     marca_tomografo = models.CharField(max_length=50, blank=True)
@@ -80,7 +80,7 @@ Hospital.centro_de_imagenes = property(lambda h: CentroDeImagenes.objects.get_or
 
 class CentroTecnico(models.Model):
     
-    hospital = models.OneToOneField(Hospital, primary_key=True)
+    hospital = models.OneToOneField(Hospital, primary_key=True, on_delete=models.CASCADE)
     jefe = models.CharField(max_length=50, blank=True)
     tecnicos = models.TextField(blank=True)
     radiologos = models.TextField(blank=True)
@@ -97,7 +97,7 @@ Hospital.centro_tecnico = property(lambda h: CentroTecnico.objects.get_or_create
 
 class Hospitalizacion(models.Model):
     
-    hospital = models.OneToOneField(Hospital, primary_key=True)
+    hospital = models.OneToOneField(Hospital, primary_key=True, on_delete=models.CASCADE)
     posee_hospitalizacion = models.NullBooleanField()
     cuantas_habitaciones_posee = models.IntegerField(default=0, blank=True)
     cuantas_habitaciones_dobles_posee = models.IntegerField(default=0, blank=True)
