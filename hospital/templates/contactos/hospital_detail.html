@@ -29,6 +29,19 @@
 	  	</div>
     </li>
     <li>
+      <div data-role="collapsible" data-collapsed="false">
+		  <h3>Centro T&eacute;cnico</h3>
+		  <ul data-role="listview">
+		  	<li>Jefe: {{ hospital.centro_tecnico.jefe }}</li>
+		    <li>T&eacute;cnicos: {{ hospital.quirofano.tecnicos }}</li>
+		    <li>Radi&oacute;logos: {{ hospital.quirofano.instrumentista }}</li>
+		    <li>Secretaria: {{ hospital.quirofano.secretaria }}</li>
+		    <a href="{% url tecnico-editar hospital.id %}">Editar</a>
+		  </ul>
+		  </li>
+	  </div>
+    </li>
+    <li>
 	  <h3>Quir&oacute;fano</h3>
 	  <ul data-role="listview">
 	  	<li>Posee Quir&oacute;fano: {{ hospital.quirofano.posee_quirofano|yesno }}</li>
@@ -117,16 +130,6 @@
 		  	</div>
 	  	</li>
 	    <li><a href="{% url imagenes-editar hospital.id %}">Editar Informaci&oacute;n</a></li>
-	  </ul>
-    </li>
-    <li>
-	  <h3>Centro T&eacute;cnico</h3>
-	  <ul data-role="listview">
-	  	<li>Jefe: {{ hospital.centro_tecnico.jefe }}</li>
-	    <li>T&eacute;cnicos: {{ hospital.quirofano.tecnicos }}</li>
-	    <li>Radi&oacute;logos: {{ hospital.quirofano.instrumentista }}</li>
-	    <li>Secretaria: {{ hospital.quirofano.secretaria }}</li>
-	    <li><a href="{% url tecnico-editar hospital.id %}">Editar</a></li>
 	  </ul>
     </li>
   </ul>

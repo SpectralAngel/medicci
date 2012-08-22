@@ -6,7 +6,7 @@ from contactos.views import (
   CitaCreateView, CitaDetailView, CitaVisitarView, CitaUpdateView,
   TelefonoCreateView, EmailCreateView, MaterialUtilizadoCreateView,
   DireccionCreateView, CuentaDetailView, Calendario, ProfileDetailView,
-    ProfileUpdateView)
+    ProfileUpdateView, FinalizarConfiguracion)
 
 urlpatterns = patterns('',
     
@@ -21,6 +21,9 @@ urlpatterns = patterns('',
     
     url(r'^usuario/editar$',
         ProfileUpdateView.as_view(), name='profile-editar'),
+    
+    url(r'^usuario/configurar$',
+        FinalizarConfiguracion.as_view(), name='profile-configurar'),
     
     url(r'^(?P<pk>\d+)$',
         ContactoDetailView.as_view(), name='contacto-ver'),

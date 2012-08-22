@@ -337,3 +337,14 @@ class ProfileDetailView(DetailView, LoginRequiredView):
     def get_object(self, queryset=None):
         
         return self.request.user.profile
+
+class FinalizarConfiguracion(RedirectView, LoginRequiredView):
+     
+    permanent = False
+    
+    def get_redirect_url(self, **kwargs):
+        
+        self.request.user.profile.configurado = True
+        self.request.user.profile.save()
+        messages.info(self.request, u'¡Su perfil ha sido configurado!')
+        return reverse('profile')

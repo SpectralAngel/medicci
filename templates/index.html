@@ -28,4 +28,7 @@
 
 {% block navmenu %}
 <li><a href="{% url calendario year month %}">Calendario</a></li>
+{% if user.profile.configurado %}
+<li><a href="{% url profile %}">Mi Perfil</a></li>
+{% endif %}
 {% endblock %}

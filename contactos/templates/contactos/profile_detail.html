@@ -20,6 +20,9 @@
       </div>
     </li>
     <a href="{% url profile-editar  %}" data-role="button">Editar Perfil</a>
+    {% not if user.profile.configurado %}
+    <a href="{% url profile-configurar %}" data-role="button">Terminar Configuraci&oacute;n</a>
+    {% endif %}
   </ul>
 {% endblock %}
 
