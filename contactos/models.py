@@ -331,6 +331,7 @@ class Profile(models.Model):
     zona = models.ForeignKey(Zona, related_name='perfiles', blank=True, null=True)
     telefono = models.CharField(max_length=200, blank=True)
     skype = models.CharField(max_length=200, blank=True)
+    fecha_de_nacimiento = models.DateField(default=date.today) 
     configurado = models.BooleanField(default=False)
     
     @permalink

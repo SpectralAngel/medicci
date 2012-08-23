@@ -7,7 +7,7 @@
     <li><strong>Skype:</strong> {{ user.profile.skype }}</li>
     <li>
       {% if user.profile.zona == None %}
-      Actualmente usted ha especificado la zona en la que efectuar&aacute;
+      Actualmente usted no ha especificado la zona en la que efectuar&aacute;
       sus ventas. Registrar su Zona le permitiendo agregar los Hospitales
       que se encuentran en la regi&oacute;n para que pueda tener una
       visi&oacute;n m&aacute;s clara de las oportunidades de negocio en su Zona.
@@ -27,14 +27,19 @@
         </ul>
       </div>
     </li>
+    <li>
     <a href="{% url profile-editar  %}" data-role="button">Editar Perfil</a>
+    </li>
     {% if not user.profile.configurado %}
-    <p>
-    	Una vez haya terminado de llenar los Hospitales de su Zona de ventas, utilice el siguiente
-    	enlace para quitar el boton de Configurar de la pantalla de inicio.
-    </p>
-    <a href="{% url profile-configurar %}" data-role="button" data-theme="d">Terminar Configuraci&oacute;n</a>
+    <li>
+	    <p>
+	    	Una vez haya terminado de llenar los Hospitales de su Zona de ventas,
+	    	utilice el siguiente enlace para quitar el boton
+	    	de Configurar de la pantalla de inicio.
+	    </p>
+	    <a href="{% url profile-configurar %}" data-role="button" data-theme="d">Terminar Configuraci&oacute;n</a>
     {% endif %}
+    </li>
   </ul>
 {% endblock %}
 
