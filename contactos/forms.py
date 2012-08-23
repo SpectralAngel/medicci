@@ -5,7 +5,7 @@ from contactos.models import (Contacto, Especialidad, Cita, Ciclo, Departamento,
     Municipio, Direccion, Telefono, Email, Visita, Material, MaterialUtilizado,
     Cuenta, Asociacion, Profile, Zona, Hospital)
 from contactos.widgets import (DateBoxWidget, SlideTimeBoxWidget, JQMSelectMultiple,
-    JQMSelect)
+    JQMSelect, SlideBoxWidget)
 
 class ContactoForm(forms.ModelForm):
     
@@ -117,6 +117,7 @@ class ProfileForm(forms.ModelForm):
         model = Profile
         exclude = ('user', 'configurado',)
     
+    fecha_de_nacimiento = forms.DateField(widget=SlideBoxWidget())
     zona = forms.ModelChoiceField(label="",
                                   queryset=Zona.objects.all(),
                                   widget=JQMSelect(), required=False)
