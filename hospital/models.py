@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from django.db.models import permalink
-from contactos.models import Hospital
+from contactos.models import Hospital, Contacto
 
 class Administracion(models.Model):
     
     hospital = models.OneToOneField(Hospital, primary_key=True, on_delete=models.CASCADE)
-    propietario = models.CharField(max_length=50, blank=True)
-    administrador = models.CharField(max_length=50, blank=True)
-    jefe_de_compras = models.CharField(max_length=50, blank=True)
-    socios = models.TextField(blank=True)
+    propietario = models.ForeignKey(Contacto, null=True, blank=True, related_name="propietario")
+    administrador = models.ForeignKey(Contacto, null=True, blank=True, related_name="administrador")
+    jefe_de_compras = models.ForeignKey(Contacto, null=True, blank=True, related_name="jefe_de_compras")
+    socios = models.ManyToManyField(Contacto)
     
     @permalink
     def get_absolute_url(self):
@@ -24,10 +24,10 @@ class Quirofano(models.Model):
     
     hospital = models.OneToOneField(Hospital, primary_key=True, on_delete=models.CASCADE)
     posee_quirofano = models.NullBooleanField()
-    jefe = models.CharField(max_length=50, blank=True)
-    instrumentista = models.CharField(max_length=50, blank=True)
-    secretaria = models.CharField(max_length=50, blank=True)
-    doctores = models.TextField(blank=True)
+    jefe = models.ForeignKey(Contacto, null=True, blank=True, related_name="jefe_quirofanos")
+    instrumentista = models.ForeignKey(Contacto, null=True, blank=True, related_name="instrumentista")
+    secretaria = models.ForeignKey(Contacto, null=True, blank=True, related_name="secretaria_quirofano")
+    doctores = models.ManyToManyField(Contacto, related_name="doctores")
     numero_de_quirofanos = models.IntegerField(default=0, blank=True)
     numero_de_salas_de_parto = models.IntegerField(default=0, blank=True)
     quirofanos_endoscopicos = models.IntegerField(default=0, blank=True)
@@ -81,10 +81,10 @@ Hospital.centro_de_imagenes = property(lambda h: CentroDeImagenes.objects.get_or
 class CentroTecnico(models.Model):
     
     hospital = models.OneToOneField(Hospital, primary_key=True, on_delete=models.CASCADE)
-    jefe = models.CharField(max_length=50, blank=True)
-    tecnicos = models.TextField(blank=True)
-    radiologos = models.TextField(blank=True)
-    secretaria = models.CharField(max_length=50, blank=True)
+    jefe = models.ForeignKey(Contacto, null=True, blank=True)
+    tecnicos = models.ManyToManyField(Contacto, related_name="tecnicos")
+    radiologos = models.ManyToManyField(Contacto, related_name="radiologs")
+    secretaria = models.ForeignKey(Contacto, null=True, blank=True, related_name="secretaria_tecnico")
     
     @permalink
     def get_absolute_url(self):

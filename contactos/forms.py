@@ -126,4 +126,3 @@ class ProfileForm(forms.ModelForm):
     zona = forms.ModelChoiceField(label="",
                                   queryset=Zona.objects.all(),
                                   widget=JQMSelect(), required=False)
-
