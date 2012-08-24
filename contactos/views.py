@@ -5,6 +5,7 @@ from contactos.forms import (ContactoForm, VisitaForm, CitaForm, TelefonoForm,
 from contactos.models import (Contacto, Especialidad, Cita, Ciclo, Departamento,
     Municipio, Direccion, Telefono, Email, Visita, Material, MaterialUtilizado,
     Cuenta, Profile)
+from datetime import timedelta
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
@@ -50,7 +51,7 @@ class ContactoCreateView(CreateView, LoginRequiredView):
     def get_form(self, form_class):
         
         form = CreateView.get_form(self, form_class)
-        zona =  self.request.user.profile.zona
+        zona = self.request.user.profile.zona
         messages.warning(self.request, u"Aún no ha configurado su Zona, se muestran todos los Hospitales")
         if zona != None:
             form.hospitales.queryset = self.request.user.profile.zona.hospitales
@@ -201,8 +202,10 @@ class MaterialUtilizadoCreateView(CreateView, LoginRequiredView):
     
     def get_context_data(self, **kwargs):
         
-        context = super(MaterialUtilizadoCreateView, self).get_context_data(**kwargs)
-        context['title'] = u"Agregar Material a Visita a {0}".format(self.visita.contacto)
+        context = super(MaterialUtilizadoCreateView, self).get_context_data(
+                                                                    **kwargs)
+        context['title'] = u"Agregar Material a Visita a {0}".format(
+                                                        self.visita.contacto)
         context['visita'] = self.visita
         return context
     
@@ -221,7 +224,7 @@ class MaterialUtilizadoCreateView(CreateView, LoginRequiredView):
         url"""
 
         self.visita = get_object_or_404(Visita, pk=kwargs['visita'])
-        return super(MaterialUtilizadoCreateView, self).dispatch(*args, **kwargs)
+        return super(MaterialUtilizadoCreateView, self).dispatch(*args,**kwargs)
     
     def form_valid(self, form):
         
@@ -305,7 +308,16 @@ class Calendario(TemplateView):
         # my_calendar_from_month = datetime(self.year, self.month, 1)
         # my_calendar_to_month = datetime(self.year, self.month,
         #                                 monthrange(self.year, self.month)[1])
-        citas = Cita.objects.filter(usuario=self.request.user)
+        month = timedelta(30)
+        ahora = timezone.now()
+        inicio = ahora - month
+        fin = ahora + month
+        citas = Cita.objects.filter(
+            usuario=self.request.user,
+            fecha_y_hora__gte=inicio
+        ).exclude(
+            fecha_y_hora__gte=fin
+        )
         
         # Calculate values for the calendar controls. 1-indexed (Jan = 1)
         my_previous_year = self.year
@@ -367,3 +379,22 @@ class FinalizarConfiguracion(RedirectView, LoginRequiredView):
         self.request.user.profile.save()
         messages.info(self.request, u'¡Su perfil ha sido configurado!')
         return reverse('profile')
+
+class PresupuestoView(ListView, LoginRequiredView):
+    
+    model = Cita
+    context_object_name = 'citas'
+    template_name = 'contactos/presupuesto.html'
+    
+    def get_queryset(self):
+        
+        month = timedelta(30)
+        ahora = timezone.now()
+        inicio = ahora - month
+        fin = ahora + month
+        return Cita.objects.filter(
+            usuario=self.request.user,
+            fecha_y_hora__gte=inicio
+        ).exclude(
+            fecha_y_hora__gte=fin
+        )

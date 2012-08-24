@@ -258,6 +258,7 @@ class Cita(models.Model):
     
     contacto = models.ForeignKey(Contacto, related_name="citas")
     fecha_y_hora = models.DateTimeField(default=timezone.now)
+    fin = models.DateTimeField(default=timezone.now)
     visitada = models.NullBooleanField(blank=True, null=True)
     usuario = models.ForeignKey(User, blank=True, null=True,
                                    related_name='citas')
@@ -274,11 +275,32 @@ class Cita(models.Model):
     def __unicode__(self):
         
         return u"{0} {1}".format(self.contacto, self.fecha_y_hora)
+    
+    def as_event(self):
+        
+        title = self.contacto
+        fecha = "new Date({0}, {1}, {2}, {3}, {4})".format(
+                self.fecha_y_hora.year,
+                self.fecha_y_hora.month,
+                self.fecha_y_hora.day,
+                self.fecha_y_hora.hour,
+                self.fecha_y_hora.minute
+        )
+        final = "new Date({0}, {1}, {2}, {3}, {4})".format(
+                self.final.year,
+                self.final.month,
+                self.final.day,
+                self.final.hour,
+                self.final.minute
+        )
+        
+        return "{title: {0}, start: {1}, end: {2},}".format(title, fecha, final)
 
 class Visita(models.Model):
     
     contacto = models.ForeignKey(Contacto, related_name="visitas")
     fecha_y_hora = models.DateTimeField(default=timezone.now)
+    fin = models.DateTimeField(default=timezone.now)
     comentarios = models.TextField(blank=True, null=True)
     productos = models.ManyToManyField(Producto, related_name="visitas",
                                        blank=True)

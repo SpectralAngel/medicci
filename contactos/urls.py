@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import patterns, url
-from contactos.views import (
-  ContactoCreateView, ContactoDetailView, ContactoIndexView, ContactoUpdateView,
-  VisitaCreateView, VisitaDetailView, VisitaUpdateView, 
-  CitaCreateView, CitaDetailView, CitaVisitarView, CitaUpdateView,
-  TelefonoCreateView, EmailCreateView, MaterialUtilizadoCreateView,
-  DireccionCreateView, CuentaDetailView, Calendario, ProfileDetailView,
-    ProfileUpdateView, FinalizarConfiguracion)
+from contactos.views import (ContactoCreateView, ContactoDetailView,
+  ContactoIndexView, ContactoUpdateView, VisitaCreateView, VisitaDetailView,
+  VisitaUpdateView, CitaCreateView, CitaDetailView, CitaVisitarView,
+  CitaUpdateView, TelefonoCreateView, EmailCreateView, DireccionCreateView,
+  MaterialUtilizadoCreateView, CuentaDetailView, Calendario, ProfileDetailView,
+  ProfileUpdateView, FinalizarConfiguracion)
 
 urlpatterns = patterns('',
     

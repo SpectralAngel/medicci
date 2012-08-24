@@ -32,12 +32,12 @@
     </li>
     {% if not user.profile.configurado %}
     <li>
-	    <p>
-	    	Una vez haya terminado de llenar los Hospitales de su Zona de ventas,
-	    	utilice el siguiente enlace para quitar el boton
-	    	de Configurar de la pantalla de inicio.
-	    </p>
-	    <a href="{% url profile-configurar %}" data-role="button" data-theme="d">Terminar Configuraci&oacute;n</a>
+    	Una vez haya terminado de llenar los Hospitales de su Zona de ventas,
+    	utilice el siguiente enlace para quitar el boton
+    	de Configurar de la pantalla de inicio.
+    </li>
+    <li>
+	    <a href="{% url profile-configurar %}" data-role="button" data-theme="e">Terminar Configuraci&oacute;n</a>
     {% endif %}
     </li>
   </ul>

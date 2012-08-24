@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 from contactos.models import (Contacto, Especialidad, Cita, Ciclo, Departamento,
     Municipio, Direccion, Telefono, Email, Visita, Material, MaterialUtilizado,
     Cuenta, Asociacion, Profile, Zona, Hospital)
-from contactos.widgets import (DateBoxWidget, SlideTimeBoxWidget, JQMSelectMultiple,
-    JQMSelect, SlideBoxWidget)
+from contactos.widgets import (DateBoxWidget, SlideTimeBoxWidget,
+                               JQMSelectMultiple, JQMSelect, SlideBoxWidget)
 
 class ContactoForm(forms.ModelForm):
     
@@ -32,6 +32,10 @@ class FechaHoraBaseForm(forms.ModelForm):
 
     fecha_y_hora = forms.DateTimeField(widget=SlideTimeBoxWidget(), required=False)
 
+class FinalForm(forms.ModelForm):
+    
+    fin = forms.DateTimeField(widget=SlideTimeBoxWidget(), required=False)
+
 class ContactoBaseForm(forms.ModelForm):
     
     contacto = forms.ModelChoiceField(label="",
@@ -44,14 +48,15 @@ class UsuarioBaseForm(forms.ModelForm):
                                   queryset=User.objects.all(),
                                   widget=forms.HiddenInput(), required=False)
 
-class CitaForm(ContactoBaseForm, UsuarioBaseForm, FechaHoraBaseForm):
+class CitaForm(ContactoBaseForm, UsuarioBaseForm, FechaHoraBaseForm, FinalForm):
     
     class Meta:
         
         model = Cita
         exclude = ('visitada', 'publicada',)
 
-class VisitaForm(ContactoBaseForm, UsuarioBaseForm, FechaHoraBaseForm):
+class VisitaForm(ContactoBaseForm, UsuarioBaseForm, FechaHoraBaseForm,
+                 FinalForm):
     
     class Meta:
         
