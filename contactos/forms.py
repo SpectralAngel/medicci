@@ -24,7 +24,7 @@ class ContactoForm(forms.ModelForm):
     hospitales = forms.ModelMultipleChoiceField(
                                   queryset=Hospital.objects.all(),
                                   widget=JQMSelectMultiple())
-    asocioaciones = forms.ModelMultipleChoiceField(
+    asociaciones = forms.ModelMultipleChoiceField(
                                   queryset=Asociacion.objects.all(),
                                   widget=JQMSelectMultiple())
 
