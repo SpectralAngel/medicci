@@ -80,7 +80,7 @@ class AdministradorCreateView(HospitalBaseView):
         como vendedor asignado a este contacto
         """
         
-        self.object = form.save(commit=False)
+        self.object = form.save()
         self.object.vendedores.add(self.request.user)
         self.object.administrador.add(self.hospital.administracion)
         self.object.save()
@@ -95,7 +95,7 @@ class PropietarioCreateView(HospitalBaseView):
         como vendedor asignado a este contacto
         """
         
-        self.object = form.save(commit=False)
+        self.object = form.save()
         self.object.propietario.add(self.hospital.administracion)
         self.object.vendedores.add(self.request.user)
         self.object.save()
@@ -110,7 +110,7 @@ class JefeComprasCreateView(HospitalBaseView):
         como vendedor asignado a este contacto
         """
         
-        self.object = form.save(commit=False)
+        self.object = form.save()
         self.object.vendedores.add(self.request.user)
         self.object.jefe_de_compras.add(self.hospital.administracion)
         self.object.save()
@@ -125,7 +125,7 @@ class JefeQuirofanoCreateView(HospitalBaseView):
         como vendedor asignado a este contacto
         """
         
-        self.object = form.save(commit=False)
+        self.object = form.save()
         self.object.vendedores.add(self.request.user)
         self.object.jefe_quirofanos.add(self.hospital.quirofano)
         self.object.save()
@@ -140,7 +140,7 @@ class InstrumentistaCreateView(HospitalBaseView):
         como vendedor asignado a este contacto
         """
         
-        self.object = form.save(commit=False)
+        self.object = form.save()
         self.object.vendedores.add(self.request.user)
         self.object.instrumentista.add(self.hospital.quirofano)
         self.object.save()
@@ -155,7 +155,7 @@ class SecretariaQuirofanoCreateView(HospitalBaseView):
         como vendedor asignado a este contacto
         """
         
-        self.object = form.save(commit=False)
+        self.object = form.save()
         self.object.secretaria_quirofano.add(self.hospital.quirofano)
         self.object.vendedores.add(self.request.user)
         self.object.save()
@@ -171,7 +171,7 @@ class JefeTecnicoCreateView(HospitalBaseView):
         como vendedor asignado a este contacto
         """
         
-        self.object = form.save(commit=False)
+        self.object = form.save()
         self.object.centroTecnicos.add(self.hospital.centro_tecnico)
         self.object.vendedores.add(self.request.user)
         self.object.save()
@@ -186,7 +186,7 @@ class SecretariaTecnicoCreateView(HospitalBaseView):
         como vendedor asignado a este contacto
         """
         
-        self.object = form.save(commit=False)
+        self.object = form.save()
         self.object.vendedores.add(self.request.user)
         self.object.secretaria_tecnico.add(self.hospital.centro_tecnico)
         self.object.save()
@@ -201,8 +201,41 @@ class SocioCreateView(HospitalBaseView):
         como vendedor asignado a este contacto
         """
         
-        self.object = form.save(commit=False)
-        self.hospital.socios.add(self.object)
+        self.object = form.save()
+        self.hospital.administracion.socios.add(self.object)
+        self.object.vendedores.add(self.request.user)
+        self.object.save()
+        
+        return HttpResponseRedirect(self.get_success_url())
+
+class RadiologoCreateView(HospitalBaseView):
+    
+    def form_valid(self, form):
+        
+        self.object = form.save()
+        self.hospital.centro_tecnico.radiologos.add(self.object)
+        self.object.vendedores.add(self.request.user)
+        self.object.save()
+        
+        return HttpResponseRedirect(self.get_success_url())
+
+class TecnicoCreateView(HospitalBaseView):
+    
+    def form_valid(self, form):
+        
+        self.object = form.save()
+        self.hospital.centro_tecnico.tecnicos.add(self.object)
+        self.object.vendedores.add(self.request.user)
+        self.object.save()
+        
+        return HttpResponseRedirect(self.get_success_url())
+
+class DoctorCreateView(HospitalBaseView):
+    
+    def form_valid(self, form):
+        
+        self.object = form.save()
+        self.hospital.quirofano.doctores.add(self.object)
         self.object.vendedores.add(self.request.user)
         self.object.save()
         
