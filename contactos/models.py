@@ -112,7 +112,7 @@ class Contacto(models.Model):
     nombre = models.CharField(max_length=50, blank=True)
     apellido = models.CharField(max_length=50, blank=True)
     sexo = models.CharField(max_length=1, choices=SEXOS, blank=True)
-    nacimiento = models.DateField(default=date.today)
+    nacimiento = models.DateField(default=date.today, blank=True)
     web = models.CharField(max_length=200, blank=True)
     horario = models.CharField(max_length=1, choices=TURNOS, blank=True)
     ciudad = models.ForeignKey(Municipio, related_name="contactos", blank=True)
