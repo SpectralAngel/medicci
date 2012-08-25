@@ -15,16 +15,18 @@ class ContactoForm(forms.ModelForm):
         exclude = ('agregado', 'activo', )
     
     nacimiento = forms.DateField(widget=DateBoxWidget(), required=False)
-    especialidades = forms.ModelMultipleChoiceField(
+    ciudad = forms.ModelChoiceField(queryset=Municipio.objects.all(),
+                                       widget=JQMSelect())
+    especialidades = forms.ModelMultipleChoiceField(required=False,
                                   queryset=Especialidad.objects.all(),
                                   widget=JQMSelectMultiple())
-    vendedores = forms.ModelMultipleChoiceField(
+    vendedores = forms.ModelMultipleChoiceField(required=False,
                                   queryset=User.objects.all(),
                                   widget=JQMSelectMultiple())
-    hospitales = forms.ModelMultipleChoiceField(
+    hospitales = forms.ModelMultipleChoiceField(required=False,
                                   queryset=Hospital.objects.all(),
                                   widget=JQMSelectMultiple())
-    asociaciones = forms.ModelMultipleChoiceField(
+    asociaciones = forms.ModelMultipleChoiceField(required=False,
                                   queryset=Asociacion.objects.all(),
                                   widget=JQMSelectMultiple())
 

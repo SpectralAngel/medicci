@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
 from contactos.models import (Hospital, Zona)
-from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
-from django.utils import timezone
-from django.views.generic import (ListView, UpdateView, DetailView, CreateView,
-    RedirectView, View, TemplateView)
+from django.views.generic import (UpdateView, DetailView, CreateView)
 from contactos.views import LoginRequiredView, ContactoCreateView
 from hospital.forms import (HospitalForm, AdministracionForm,
     CentroDeImagenesForm, HospitalizacionForm, CentroTecnicoForm, QuirofanoForm)
@@ -30,7 +27,7 @@ class HospitalCreateView(CreateView, LoginRequiredView):
         
         """Agrega la :class:`contacto` obtenida como el valor a utilizar en el
         formulario que será llenado posteriormente"""
-
+        
         kwargs = super(HospitalCreateView, self).get_form_kwargs()
         kwargs.update({'initial':{'zona':self.zona.id}})
         return kwargs
@@ -39,7 +36,7 @@ class HospitalCreateView(CreateView, LoginRequiredView):
         
         """Obtiene la :class:`contacto` que se entrego como argumento en la
         url"""
-
+        
         self.zona = get_object_or_404(Zona, pk=kwargs['zona'])
         return super(HospitalCreateView, self).dispatch(*args, **kwargs)
     
@@ -48,14 +45,14 @@ class HospitalCreateView(CreateView, LoginRequiredView):
         """Guarda el objeto generado espeficando la :class:`contacto` obtenida
         de los argumentos y el :class:`User` que esta utilizando la aplicación
         """
-
+        
         self.object = form.save(commit=False)
         self.object.zona = self.zona
         self.object.save()
         
         return HttpResponseRedirect(self.get_success_url())
 
-def HospitalBaseView(View):
+class HospitalBaseView(ContactoCreateView):
     
     def get_context_data(self, **kwargs):
         
@@ -67,11 +64,15 @@ def HospitalBaseView(View):
         
         """Obtiene la :class:`contacto` que se entrego como argumento en la
         url"""
-
+        
         self.hospital = get_object_or_404(Hospital, pk=kwargs['hospital'])
         return super(HospitalBaseView, self).dispatch(*args, **kwargs)
+    
+    def get_success_url(self):
+        
+        return reverse('hospital', args=[self.hospital.id])
 
-class AdministradorCreateView(ContactoCreateView, HospitalBaseView):
+class AdministradorCreateView(HospitalBaseView):
     
     def form_valid(self, form):
         
@@ -80,14 +81,89 @@ class AdministradorCreateView(ContactoCreateView, HospitalBaseView):
         """
         
         self.object = form.save(commit=False)
-        self.hospital.administracion.administrador = self.object
+        self.object.vendedores.add(self.request.user)
+        self.object.administrador.add(self.hospital.administracion)
+        self.object.save()
+        
+        return HttpResponseRedirect(self.get_success_url())
+
+class PropietarioCreateView(HospitalBaseView):
+    
+    def form_valid(self, form):
+        
+        """Guarda el objeto generado :class:`User` que esta utilizando la aplicación
+        como vendedor asignado a este contacto
+        """
+        
+        self.object = form.save(commit=False)
+        self.object.propietario.add(self.hospital.administracion)
+        self.object.vendedores.add(self.request.user)
+        self.object.save()
+        
+        return HttpResponseRedirect(self.get_success_url())
+
+class JefeComprasCreateView(HospitalBaseView):
+    
+    def form_valid(self, form):
+        
+        """Guarda el objeto generado :class:`User` que esta utilizando la aplicación
+        como vendedor asignado a este contacto
+        """
+        
+        self.object = form.save(commit=False)
+        self.object.vendedores.add(self.request.user)
+        self.object.jefe_de_compras.add(self.hospital.administracion)
+        self.object.save()
+        
+        return HttpResponseRedirect(self.get_success_url())
+
+class JefeQuirofanoCreateView(HospitalBaseView):
+    
+    def form_valid(self, form):
+        
+        """Guarda el objeto generado :class:`User` que esta utilizando la aplicación
+        como vendedor asignado a este contacto
+        """
+        
+        self.object = form.save(commit=False)
+        self.object.vendedores.add(self.request.user)
+        self.object.jefe_quirofanos.add(self.hospital.quirofano)
+        self.object.save()
+        
+        return HttpResponseRedirect(self.get_success_url())
+
+class InstrumentistaCreateView(HospitalBaseView):
+    
+    def form_valid(self, form):
+        
+        """Guarda el objeto generado :class:`User` que esta utilizando la aplicación
+        como vendedor asignado a este contacto
+        """
+        
+        self.object = form.save(commit=False)
+        self.object.vendedores.add(self.request.user)
+        self.object.instrumentista.add(self.hospital.quirofano)
+        self.object.save()
+        
+        return HttpResponseRedirect(self.get_success_url())
+
+class SecretariaQuirofanoCreateView(HospitalBaseView):
+    
+    def form_valid(self, form):
+        
+        """Guarda el objeto generado :class:`User` que esta utilizando la aplicación
+        como vendedor asignado a este contacto
+        """
+        
+        self.object = form.save(commit=False)
+        self.object.secretaria_quirofano.add(self.hospital.quirofano)
         self.object.vendedores.add(self.request.user)
         self.object.save()
         self.hospital.administracion.save()
         
         return HttpResponseRedirect(self.get_success_url())
 
-class PropietarioCreateView(ContactoCreateView, HospitalBaseView):
+class JefeTecnicoCreateView(HospitalBaseView):
     
     def form_valid(self, form):
         
@@ -96,14 +172,13 @@ class PropietarioCreateView(ContactoCreateView, HospitalBaseView):
         """
         
         self.object = form.save(commit=False)
-        self.hospital.administracion.propietario = self.object
+        self.object.centroTecnicos.add(self.hospital.centro_tecnico)
         self.object.vendedores.add(self.request.user)
         self.object.save()
-        self.hospital.administracion.save()
         
         return HttpResponseRedirect(self.get_success_url())
 
-class JefeComprasCreateView(ContactoCreateView, HospitalBaseView):
+class SecretariaTecnicoCreateView(HospitalBaseView):
     
     def form_valid(self, form):
         
@@ -112,14 +187,13 @@ class JefeComprasCreateView(ContactoCreateView, HospitalBaseView):
         """
         
         self.object = form.save(commit=False)
-        self.hospital.administracion.jefe_de_compras = self.object
         self.object.vendedores.add(self.request.user)
+        self.object.secretaria_tecnico.add(self.hospital.centro_tecnico)
         self.object.save()
-        self.hospital.administracion.save()
         
         return HttpResponseRedirect(self.get_success_url())
 
-class JefeQuirofanoCreateView(ContactoCreateView, HospitalBaseView):
+class SocioCreateView(HospitalBaseView):
     
     def form_valid(self, form):
         
@@ -128,74 +202,9 @@ class JefeQuirofanoCreateView(ContactoCreateView, HospitalBaseView):
         """
         
         self.object = form.save(commit=False)
-        self.hospital.quirofano.jefe = self.object
+        self.hospital.socios.add(self.object)
         self.object.vendedores.add(self.request.user)
         self.object.save()
-        self.hospital.administracion.save()
-        
-        return HttpResponseRedirect(self.get_success_url())
-
-class InstrumentistaCreateView(ContactoCreateView, HospitalBaseView):
-    
-    def form_valid(self, form):
-        
-        """Guarda el objeto generado :class:`User` que esta utilizando la aplicación
-        como vendedor asignado a este contacto
-        """
-        
-        self.object = form.save(commit=False)
-        self.hospital.quirofano.instrumentista = self.object
-        self.object.vendedores.add(self.request.user)
-        self.object.save()
-        self.hospital.administracion.save()
-        
-        return HttpResponseRedirect(self.get_success_url())
-
-class SecretariaQuirofanoCreateView(ContactoCreateView, HospitalBaseView):
-    
-    def form_valid(self, form):
-        
-        """Guarda el objeto generado :class:`User` que esta utilizando la aplicación
-        como vendedor asignado a este contacto
-        """
-        
-        self.object = form.save(commit=False)
-        self.hospital.quirofano.secretaria = self.object
-        self.object.vendedores.add(self.request.user)
-        self.object.save()
-        self.hospital.administracion.save()
-        
-        return HttpResponseRedirect(self.get_success_url())
-
-class JefeTecnicoCreateView(ContactoCreateView, HospitalBaseView):
-    
-    def form_valid(self, form):
-        
-        """Guarda el objeto generado :class:`User` que esta utilizando la aplicación
-        como vendedor asignado a este contacto
-        """
-        
-        self.object = form.save(commit=False)
-        self.hospital.centro_tecnico.jefe = self.object
-        self.object.vendedores.add(self.request.user)
-        self.object.save()
-        self.hospital.administracion.save()
-        
-        return HttpResponseRedirect(self.get_success_url())
-
-class SecretariaTecnicoCreateView(ContactoCreateView, HospitalBaseView):
-    
-    def form_valid(self, form):
-        
-        """Guarda el objeto generado :class:`User` que esta utilizando la aplicación
-        como vendedor asignado a este contacto
-        """
-        
-        self.object = form.save(commit=False)
-        self.hospital.centro_tecnico.secretaria = self.object
-        self.object.vendedores.add(self.request.user)
-        self.object.save()
-        self.hospital.administracion.save()
         
         return HttpResponseRedirect(self.get_success_url())
 

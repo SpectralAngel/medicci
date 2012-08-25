@@ -2,7 +2,8 @@
 from django import forms
 from hospital.models import (Administracion, CentroDeImagenes, CentroTecnico,
                              Hospitalizacion, Quirofano)
-from contactos.models import Hospital, Zona
+from contactos.models import Hospital, Zona, Municipio
+from contactos.widgets import JQMSelect
 
 class HospitalForm(forms.ModelForm):
     
@@ -13,6 +14,9 @@ class HospitalForm(forms.ModelForm):
     zona = forms.ModelChoiceField(label="",
                                   queryset=Zona.objects.all(),
                                   widget=forms.HiddenInput())
+    
+    municipio = forms.ModelChoiceField(queryset=Municipio.objects.all(),
+                                       widget=JQMSelect())
 
 class HospitalBaseForm(forms.ModelForm):
 

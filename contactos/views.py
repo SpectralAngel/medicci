@@ -52,9 +52,10 @@ class ContactoCreateView(CreateView, LoginRequiredView):
         
         form = CreateView.get_form(self, form_class)
         zona = self.request.user.profile.zona
-        messages.warning(self.request, u"Aún no ha configurado su Zona, se muestran todos los Hospitales")
         if zona != None:
-            form.hospitales.queryset = self.request.user.profile.zona.hospitales
+            form.fields['hospitales'].queryset = self.request.user.profile.zona.hospitales
+        else:
+            messages.warning(self.request, u"Aún no ha configurado su Zona, se muestran todos los Hospitales")
         return form
     
     def form_valid(self, form):

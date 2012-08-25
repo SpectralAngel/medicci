@@ -5,57 +5,129 @@
     <li><strong>N&uacute;mero de Tel&eacute;fono:</strong> {{ hospital.telefono }}</li>
     <li><strong>Direcci&oacute;n:</strong> {{ hospital.direccion }}</li>
     <li>
-    	<div data-role="collapsible" data-collapsed="false">
+    	<div data-role="collapsible">
 	  	<h3>Administraci&oacute;n</h3>
-	  	<ul>
-		  	<li>Propietario: {{ hospital.administracion.propietario }}</li>
-		    <li>Administrador: {{ hospital.administracion.administrador }}</li>
-		    <li>Jefe de Compras: {{ hospital.administracion.jefe_de_compras }}</li>
-		    <li>Socios: {{ hospital.administracion.socios }}</li>
+	  	<ul data-role="listview">
+		    <li>
+		    	{% if hospital.administracion.propietario == None %}
+		    	<a href="{% url propietario-agregar hospital.id %}">Agregar Propietario</a>
+		    	{% else %}
+		    	<a href="{% url contacto-ver hospital.administracion.propietario.id %}">
+		    	Propietario: {{ hospital.administracion.propietario }}
+		    	</a>
+		    	{% endif %}
+		    </li>
+		    <li>
+		    	{% if hospital.administracion.administrador == None %}
+		    	<a href="{% url administrador-agregar hospital.id %}">Agregar Administrador</a>
+		    	{% else %}
+		    	<a href="{% url contacto-ver hospital.administracion.administrador.id %}">
+		    	Administrador: {{ hospital.administracion.administrador }}
+		    	</a>
+		    	{% endif %}
+		    </li>
+		    <li>
+		    	{% if hospital.administracion.jefe_de_compras == None %}
+		    	<a href="{% url compras-agregar hospital.id %}">Agregar Jefe de Compras</a>
+		    	{% else %}
+		    	<a href="{% url contacto-ver hospital.administracion.jefe_de_compras.id %}">
+		    	Jefe de Compras: {{ hospital.administracion.jefe_de_compras }}
+		    	</a>
+		    	{% endif %}
+		    </li>
+		    <li>
+		    	<h4>Socios:</h4>
+		    	<ul>
+		    	{% for socio in hospital.administracion.socios.all %}
+		    	<li><a href="{% url contacto-ver socio.id %}">{{ socio }}</a></li>
+		    	{% endfor %}
+		    	<li><a href="{% url agregar-socio hospital.id %}">Agregar Socio</a></li>
+		    	</ul>
+		    </li>
 	  	</ul>
-		<a href="{% url administracion-editar hospital.id %}" data-role="button">Editar</a>
 	  	</div>
     </li>
     <li>
-		<div data-role="collapsible" data-collapsed="false">
+		<div data-role="collapsible">
 	  	<h3>Hospitalizaci&oacute;n</h3>
-	  	<ul>
+	  	<ul data-role="listview">
 		  	<li>Posee Hospitalizacion: {{ hospital.hospitalizacion.posee_hospitalizacion|yesno }}</li>
 		  	<li>Posee {{ hospital.hospitalizacion.cuantas_habitaciones_posee }} Habitaciones</li>
 		  	<li>Posee {{ hospital.hospitalizacion.cuantas_habitaciones_dobles_posee }} Habitaciones Dobles</li>
 		  	<li>Posee {{ hospital.hospitalizacion.cuantas_habitaciones_sencillas_posee }} Habitaciones  Sencillas</li>
+		  	<li><a href="{% url tecnico-editar hospital.id %}">Editar Hospitalizaci&oacute;n</a></li>
 	  	</ul>
-	  	<a href="{% url tecnico-editar hospital.id %}" data-role="button">Editar</a>
 	  	</div>
     </li>
     <li>
-      <div data-role="collapsible" data-collapsed="false">
+      <div data-role="collapsible">
 		  <h3>Centro T&eacute;cnico</h3>
 		  <ul data-role="listview">
-		  	<li>Jefe: {{ hospital.centro_tecnico.jefe }}</li>
-		    <li>T&eacute;cnicos: {{ hospital.quirofano.tecnicos }}</li>
-		    <li>Radi&oacute;logos: {{ hospital.quirofano.instrumentista }}</li>
-		    <li>Secretaria: {{ hospital.quirofano.secretaria }}</li>
-		    <a href="{% url tecnico-editar hospital.id %}">Editar</a>
+		    <li>
+		    	{% if hospital.centro_tecnico.jefe == None %}
+		    	<a href="{% url jefe-tecnico-agregar hospital.id %}">Agregar Jefe T&eacute;cnico</a>
+		    	{% else %}
+		    	<a href="{% url contacto-ver hospital.centro_tecnico.jefe.id %}">
+		    	Jefe: {{ hospital.centro_tecnico.jefe }}
+		    	</a>
+		    	{% endif %}
+		    </li>
+		    <li>
+		    	{% if hospital.centro_tecnico.secretaria == None %}
+		    	<a href="{% url secretaria-tecnico-agregar hospital.id %}">Agregar Secretaria</a>
+		    	{% else %}
+		    	<a href="{% url contacto-ver hospital.centro_tecnico.secretaria.id %}">
+		    	Jefe: {{ hospital.centro_tecnico.secretaria }}
+		    	</a>
+		    	{% endif %}
+		    </li>
+		    <li>T&eacute;cnicos: {{ hospital.centro_tecnico.tecnicos }}</li>
+		    <li>Radiologos: {{ hospital.centro_tecnico.radiologos }}</li>
+		    <li><a href="{% url tecnico-editar hospital.id %}">Editar Centro T&eacute;cnico</a></li>
 		  </ul>
-		  </li>
 	  </div>
     </li>
     <li>
-	  <h3>Quir&oacute;fano</h3>
-	  <ul data-role="listview">
-	  	<li>Posee Quir&oacute;fano: {{ hospital.quirofano.posee_quirofano|yesno }}</li>
-	    <li>Jefe de Quir&oacute;fanos: {{ hospital.quirofano.jefe }}</li>
-	    <li>Instrumentista: {{ hospital.quirofano.instrumentista }}</li>
-	    <li>Secretaria: {{ hospital.quirofano.secretaria }}</li>
-	    <li>Doctores: {{ hospital.quirofano.doctores}}</li>
-	    <li>N&uacute;mero de Quir&oacute;fanos: {{ hospital.quirofano.numero_de_quirofanos }}</li>
-	    <li>N&uacute;mero de Salas de Parto: {{ hospital.quirofano.salas_de_parto }}</li>
-	    <li>Quir&oacute;nos para procedimientos endoscópicos:
-	    	{{ hospital.quirofano.quirofanos_endoscopicos }}
-	    </li>
-	    <li><a href="{% url quirofano-editar hospital.id %}">Editar</a></li>
-	  </ul>
+    	<div data-role="collapsible">
+		  <h3>Quir&oacute;fano</h3>
+		  <ul data-role="listview">
+		  	<li>Posee Quir&oacute;fano: {{ hospital.quirofano.posee_quirofano|yesno }}</li>
+		    <li>
+		    	{% if hospital.quirofano.jefe == None %}
+		    	<a href="{% url jefe-quirofano-agregar hospital.id %}">Agregar Jefe de Quir&oacute;fano</a>
+		    	{% else %}
+		    	<a href="{% url contacto-ver hospital.quirofano.jefe.id %}">
+		    	Jefe: {{ hospital.quirofano.jefe }}
+		    	</a>
+		    	{% endif %}
+		    </li>
+		    <li>
+		    	{% if hospital.quirofano.instrumentista == None %}
+		    	<a href="{% url instrumentista-quirofano-agregar hospital.id %}">Agregar Instrumentista</a>
+		    	{% else %}
+		    	<a href="{% url contacto-ver hospital.quirofano.instrumentista.id %}">
+		    	Jefe: {{ hospital.quirofano.instrumentista }}
+		    	</a>
+		    	{% endif %}
+		    </li>
+		    <li>
+		    	{% if hospital.quirofano.jefe == None %}
+		    	<a href="{% url secretaria-quirofano-agregar hospital.id %}">Agregar Secretaria de Quir&oacute;fano</a>
+		    	{% else %}
+		    	<a href="{% url contacto-ver hospital.quirofano.secretaria.id %}">
+		    	Jefe: {{ hospital.quirofano.secretaria }}
+		    	</a>
+		    	{% endif %}
+		    </li>
+		    <li>Doctores: {{ hospital.quirofano.doctores}}</li>
+		    <li>N&uacute;mero de Quir&oacute;fanos: {{ hospital.quirofano.numero_de_quirofanos }}</li>
+		    <li>N&uacute;mero de Salas de Parto: {{ hospital.quirofano.salas_de_parto }}</li>
+		    <li>Quir&oacute;nos para procedimientos endoscópicos:
+		    	{{ hospital.quirofano.quirofanos_endoscopicos }}
+		    </li>
+		    <li><a href="{% url quirofano-editar hospital.id %}">Editar Quir&oacute;fano</a></li>
+		  </ul>
+		</div>
     </li>
     <li>
 	  <h3>Centro de Im&aacute;genes</h3>
@@ -129,7 +201,7 @@
 		  	</ul>
 		  	</div>
 	  	</li>
-	    <li><a href="{% url imagenes-editar hospital.id %}">Editar Informaci&oacute;n</a></li>
+	    <li><a href="{% url imagenes-editar hospital.id %}">Editar Centro de Im&aacute;genes</a></li>
 	  </ul>
     </li>
   </ul>
