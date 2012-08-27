@@ -53,10 +53,29 @@
 	  	<h3>Hospitalizaci&oacute;n</h3>
 	  	<ul data-role="listview">
 		  	<li>Posee Hospitalizacion: {{ hospital.hospitalizacion.posee_hospitalizacion|yesno }}</li>
+		  	<li>
+                {% if hospital.hospitalizacion.director_medico == None %}
+                <a href="{% url director-medico-agregar hospital.id %}">Agregar Director M&eacute;dico</a>
+                {% else %}
+                <a href="{% url contacto-ver hospital.hospitalizacion.director_medico.id %}">
+                Director M&eacute;dico: {{ hospital.hospitalizacion.director_medico }}
+                </a>
+                {% endif %}
+            </li>
+            <li>
+                {% if hospital.hospitalizacion.hospitalizador == None %}
+                <a href="{% url hospitalizador-agregar hospital.id %}">Agregar Encargado Hospitalizaci&oacute;n</a>
+                {% else %}
+                <a href="{% url contacto-ver hospital.hospitalizacion.hospitalizador.id %}">
+                Director M&eacute;dico: {{ hospital.hospitalizacion.hospitalizador }}
+                </a>
+                {% endif %}
+            </li>
 		  	<li>Posee {{ hospital.hospitalizacion.cuantas_habitaciones_posee }} Habitaciones</li>
+		  	<li>Posee {{ hospital.hospitalizacion.cuantas_habitaciones_suite_posee }} Suites</li>
 		  	<li>Posee {{ hospital.hospitalizacion.cuantas_habitaciones_dobles_posee }} Habitaciones Dobles</li>
-		  	<li>Posee {{ hospital.hospitalizacion.cuantas_habitaciones_sencillas_posee }} Habitaciones  Sencillas</li>
-		  	<li><a href="{% url tecnico-editar hospital.id %}">Editar Hospitalizaci&oacute;n</a></li>
+		  	<li>Posee {{ hospital.hospitalizacion.cuantas_habitaciones_sencillas_posee }} Habitaciones Sencillas</li>
+		  	<li><a href="{% url hospitalizacion-editar hospital.id %}">Editar Hospitalizaci&oacute;n</a></li>
 	  	</ul>
 	  	</div>
     </li>

@@ -230,6 +230,28 @@ class TecnicoCreateView(HospitalBaseView):
         
         return HttpResponseRedirect(self.get_success_url())
 
+class DirectorMedicoCreateView(HospitalBaseView):
+    
+    def form_valid(self, form):
+        
+        self.object = form.save()
+        self.object.director_medico.add(self.hospital.hospitalizacion)
+        self.object.vendedores.add(self.request.user)
+        self.object.save()
+        
+        return HttpResponseRedirect(self.get_success_url())
+
+class HospitalizadorCreateView(HospitalBaseView):
+    
+    def form_valid(self, form):
+        
+        self.object = form.save()
+        self.object.hospitalizador.add(self.hospital.hospitalizacion)
+        self.object.vendedores.add(self.request.user)
+        self.object.save()
+        
+        return HttpResponseRedirect(self.get_success_url())
+
 class DoctorCreateView(HospitalBaseView):
     
     def form_valid(self, form):

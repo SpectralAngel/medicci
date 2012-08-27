@@ -5,7 +5,8 @@ from hospital.views import (HospitalCreateView, HospitalDetailView, HospitalUpda
     HospitalizacionUpdateView, QuirofanoUpdateView, PropietarioCreateView,
     JefeComprasCreateView, AdministradorCreateView, JefeQuirofanoCreateView,
     SecretariaQuirofanoCreateView, JefeTecnicoCreateView,
-    SecretariaTecnicoCreateView, InstrumentistaCreateView, SocioCreateView)
+    SecretariaTecnicoCreateView, InstrumentistaCreateView, SocioCreateView,
+    DirectorMedicoCreateView, HospitalizadorCreateView)
 
 urlpatterns = patterns('',
     
@@ -47,6 +48,12 @@ urlpatterns = patterns('',
     
     url(r'^tecnico/(?P<hospital>\d+)/jefe$',
         SecretariaTecnicoCreateView.as_view(), name='secretaria-tecnico-agregar'),
+    
+    url(r'^hospitalizacion/(?P<hospital>\d+)/director$',
+        DirectorMedicoCreateView.as_view(), name='director-medico-agregar'),
+    
+    url(r'^hospitalizacion/(?P<hospital>\d+)/hospitalizador$',
+        HospitalizadorCreateView.as_view(), name='hospitalizador-agregar'),
     
     url(r'^hospitalizacion/(?P<pk>\d+)/editar$',
         HospitalizacionUpdateView.as_view(), name='hospitalizacion-editar'),

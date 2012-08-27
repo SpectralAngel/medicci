@@ -98,10 +98,13 @@ Hospital.centro_tecnico = property(lambda h: CentroTecnico.objects.get_or_create
 class Hospitalizacion(models.Model):
     
     hospital = models.OneToOneField(Hospital, primary_key=True, on_delete=models.CASCADE)
+    director_medico = models.ForeignKey(Contacto, null=True, blank=True, related_name="director_medico")
+    hospitalizador = models.ForeignKey(Contacto, null=True, blank=True, related_name="hospitalizador")
     posee_hospitalizacion = models.NullBooleanField()
     cuantas_habitaciones_posee = models.IntegerField(default=0, blank=True)
     cuantas_habitaciones_dobles_posee = models.IntegerField(default=0, blank=True)
     cuantas_habitaciones_sencillas_posee = models.IntegerField(default=0, blank=True)
+    cuantas_habitaciones_suite_posee = models.IntegerField(default=0, blank=True)
     
     @permalink
     def get_absolute_url(self):
