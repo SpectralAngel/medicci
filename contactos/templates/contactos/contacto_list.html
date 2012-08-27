@@ -4,7 +4,7 @@
 <ul data-role="listview">
 {% for contacto in contactos.all %}
     <li><a href="{% url contacto-ver contacto.id %}">
-        <h3>{{ contacto }}</h3>
+        <h3>{{ contacto.titulo }} {{ contacto }}</h3>
         <p>
             <strong>Fecha de Nacimiento:</strong> {{ contacto.nacimiento|date:"d/m/Y" }}
             <strong>Sitio Web:</strong> {{ contacto.web }}

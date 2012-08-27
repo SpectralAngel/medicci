@@ -2,11 +2,15 @@
 {% block title %}{{ contacto }}{% endblock %}
 {% block content %}
   <ul data-role="listview">
+    <li><strong>T&iacute;tulo:</strong> {{ contacto.get_titulo_display }}</li>
     <li><strong>Fecha de Nacimiento:</strong> {{ contacto.nacimiento }}</li>
     <li><strong>Ciudad:</strong> {{ contacto.ciudad }}</li>
     <li><strong>Especialidades:</strong> {% for especialidad in contacto.especialiades.all %}{{ especialidad }}{% endfor %}</li>
     {% for telefono in contacto.telefonos.all %}
     <li><strong>{{ telefono.get_tipo_display }}:</strong> {{ telefono.numero }}</li>
+    {% endfor %}
+    {% for bbpin in contacto.bbpins.all %}
+    <li><strong>BB Pin {{ bbpin.get_tipo_display }}:</strong> {{ bbpin.numero }}</li>
     {% endfor %}
     <li>{{ contacto.web|urlize }}</li>
     {% for email in contacto.emails.all %}

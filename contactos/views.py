@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from calendar import monthrange, month_name
 from contactos.forms import (ContactoForm, VisitaForm, CitaForm, TelefonoForm,
-    EmailForm, DireccionForm, MaterialUtilizadoForm, ProfileForm)
+    EmailForm, DireccionForm, MaterialUtilizadoForm, ProfileForm, BBPinForm)
 from contactos.models import (Contacto, Especialidad, Cita, Ciclo, Departamento,
     Municipio, Direccion, Telefono, Email, Visita, Material, MaterialUtilizado,
-    Cuenta, Profile)
+    Cuenta, Profile, BBPin)
 from datetime import timedelta
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -81,7 +81,7 @@ class ContactoUpdateView(UpdateView, LoginRequiredView):
         context = super(ContactoUpdateView, self).get_context_data(**kwargs)
         context['title'] = u"Medicci - Actualizar Contacto"
         return context
-        
+
 class ContactoDetailView(DetailView, LoginRequiredView):
     
     model = Contacto
@@ -286,6 +286,11 @@ class TelefonoCreateView(BaseContactoCreateView):
     
     model = Telefono
     form_class = TelefonoForm
+
+class BBPinCreateView(BaseContactoCreateView):
+    
+    model = BBPin
+    form_class = BBPinForm
 
 class EmailCreateView(BaseContactoCreateView):
     

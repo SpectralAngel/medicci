@@ -5,7 +5,7 @@ from contactos.views import (ContactoCreateView, ContactoDetailView,
   VisitaUpdateView, CitaCreateView, CitaDetailView, CitaVisitarView,
   CitaUpdateView, TelefonoCreateView, EmailCreateView, DireccionCreateView,
   MaterialUtilizadoCreateView, CuentaDetailView, Calendario, ProfileDetailView,
-  ProfileUpdateView, FinalizarConfiguracion, PresupuestoView)
+  ProfileUpdateView, FinalizarConfiguracion, PresupuestoView, BBPinCreateView)
 
 urlpatterns = patterns('',
     
@@ -62,6 +62,9 @@ urlpatterns = patterns('',
     
     url(r'^(?P<contacto>\d+)/telefono/agregar$',
         TelefonoCreateView.as_view(), name='telefono-agregar'),
+    
+    url(r'^(?P<contacto>\d+)/bbpin/agregar$',
+        BBPinCreateView.as_view(), name='bbpin-agregar'),
     
     url(r'^(?P<contacto>\d+)/direccion/agregar$',
         DireccionCreateView.as_view(), name='direccion-agregar'),

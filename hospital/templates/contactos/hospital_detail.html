@@ -4,6 +4,7 @@
   <ul data-role="listview">
     <li><strong>N&uacute;mero de Tel&eacute;fono:</strong> {{ hospital.telefono }}</li>
     <li><strong>Direcci&oacute;n:</strong> {{ hospital.direccion }}</li>
+    <li><a href="{% url hospital-editar hospital.id %}">Editar Informaci&oacute;n B&aacute;sica</a></li>
     <li>
     	<div data-role="collapsible">
 	  	<h3>Administraci&oacute;n</h3>

@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth.models import User
 from contactos.models import (Contacto, Especialidad, Cita, Ciclo, Departamento,
     Municipio, Direccion, Telefono, Email, Visita, Material, MaterialUtilizado,
-    Cuenta, Asociacion, Profile, Zona, Hospital)
+    Cuenta, Asociacion, Profile, Zona, Hospital, BBPin)
 from contactos.widgets import (DateBoxWidget, SlideTimeBoxWidget,
                                JQMSelectMultiple, JQMSelect, SlideBoxWidget)
 
@@ -81,6 +81,12 @@ class DireccionForm(ContactoBaseForm):
     class Meta:
         
         model = Direccion
+
+class BBPinForm(ContactoBaseForm):
+    
+    class Meta:
+        
+        model = BBPin
 
 class MaterialUtilizadoForm(forms.ModelForm):
     

@@ -71,10 +71,10 @@ class Hospital(models.Model):
     
     zona = models.ForeignKey(Zona, related_name='hospitales')
     municipio = models.ForeignKey(Municipio, related_name='hospitales')
-    nombre = models.CharField(max_length=200, blank=True)
-    numero = models.CharField(max_length=200, blank=True)
-    direccion = models.CharField(max_length=200, blank=True)
-    tipo_hospital = models.CharField(max_length=2, blank=True, choices=TIPOS_DE_HOSPITAL)
+    nombre = models.CharField(max_length=200)
+    numero = models.CharField(max_length=200)
+    direccion = models.CharField(max_length=200)
+    tipo_hospital = models.CharField(max_length=2, choices=TIPOS_DE_HOSPITAL)
     
     @permalink
     def get_absolute_url(self):
@@ -109,21 +109,34 @@ class Contacto(models.Model):
         ('T', 'Tarde'),
     )
     
-    nombre = models.CharField(max_length=50, blank=True)
-    apellido = models.CharField(max_length=50, blank=True)
-    sexo = models.CharField(max_length=1, choices=SEXOS, blank=True)
+    TITULOS = (
+        ('Sr.', u'Señor'),
+        ('Sra.', u'Señora'),
+        ('Srita.', u'Señorita'),
+        ('Dr.', u'Doctor/a'),
+        ('Lic.', u'Licenciado/a'),
+        ('Ing.', u'Ingeniero/a'),
+        ('Arq.', u'Arquitecto/a'),
+        ('Abg.', u'Abogado/a'),
+    )
+    
+    titulo = models.CharField(max_length=6, choices=TITULOS, blank=True)
+    nombre = models.CharField(max_length=50)
+    apellido = models.CharField(max_length=50)
+    sexo = models.CharField(max_length=1, choices=SEXOS)
     nacimiento = models.DateField(default=date.today, blank=True)
     web = models.CharField(max_length=200, blank=True)
     horario = models.CharField(max_length=1, choices=TURNOS, blank=True)
     ciudad = models.ForeignKey(Municipio, related_name="contactos", blank=True)
     especialidades = models.ManyToManyField(Especialidad,
                                            related_name="contactos", blank=True)
-    hospitales = models.ManyToManyField(Hospital, related_name="contactos",
-                                    blank=True)
+    hospitales = models.ManyToManyField(Hospital, related_name="contactos")
     vendedores = models.ManyToManyField(User, related_name='contactos')
     asociaciones = models.ManyToManyField(Asociacion, related_name='contactos')
     agregado = models.DateField(default=date.today)
     activo = models.BooleanField(default=True)
+    email = models.EmailField(null=True)
+    telefono = models.CharField(max_length=50, default='')
     
     @permalink
     def get_absolute_url(self):
@@ -170,6 +183,14 @@ class Clinica(models.Model):
     fax = models.CharField(max_length=200, blank=True)
 
 class Direccion(models.Model):
+    
+    TIPO_DIRECCION = (
+        ('O', u'Oficina'),
+        ('CI', u'Centro de Imágenes'),
+        ('L', u'Laboratorio'),
+        ('C', u'Consultorio'),
+        ('CP', u'Clínica Privada'),
+    )
     
     contacto = models.ForeignKey(Contacto, related_name="direcciones")
     calle = models.TextField(blank=True, null=True)
@@ -223,7 +244,29 @@ class Email(models.Model):
     
     contacto = models.ForeignKey(Contacto, related_name="emails")
     tipo = models.CharField(max_length=1, choices=TIPOS_EMAIL, blank=True)
-    correo = models.CharField(max_length=200, blank=True)
+    correo = models.EmailField()
+    
+    @permalink
+    def get_absolute_url(self):
+        
+        """Obtiene la URL absoluta"""
+        
+        return 'contacto-ver', [self.contacto.id]
+    
+    def __unicode__(self):
+        
+        return u"{0}".format(self.correo)
+
+class BBPin(models.Model):
+    
+    TIPOS_PIN = (
+        ('C', u'Personal'),
+        ('T', u'Trabajo'),
+        ('O', u'Otro'),
+    )
+    
+    contacto = models.ForeignKey(Contacto, related_name="bbpins")
+    numero = models.CharField(max_length=200, blank=True)
     
     @permalink
     def get_absolute_url(self):
