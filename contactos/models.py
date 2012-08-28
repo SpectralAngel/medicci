@@ -135,7 +135,7 @@ class Contacto(models.Model):
     asociaciones = models.ManyToManyField(Asociacion, related_name='contactos')
     agregado = models.DateField(default=date.today)
     activo = models.BooleanField(default=True)
-    email = models.EmailField(null=True)
+    email = models.EmailField(null=True, blank=True)
     telefono = models.CharField(max_length=50, default='')
     
     @permalink

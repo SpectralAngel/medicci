@@ -179,9 +179,10 @@
 		  	<div data-role="collapsible" data-collapsed="false">
 		  	<h4>Tomograf&iacute;a</h4>
 		  	<ul>
-			  	<li>Posee Tomografo: {{ hospital.centro_de_imagenes.posee_tomografo|yesno }}</li>
-			  	<li>Marca del Tomografo: {{ hospital.centro_de_imagenes.marca_tomografo }}</li>
-			  	<li>Piensa Adquirir Tomografo: {{ hospital.centro_de_imagenes.piensa_aquirir_tomografo }}</li>
+			  	<li>Posee Tomografo: {{ hospital.centro_de_imagenes.tomografia.posee_tomografo|yesno }}</li>
+			  	<li>Marca del Tomografo: {{ hospital.centro_de_imagenes.tomografia.marca_tomografo }}</li>
+			  	<li>Piensa Adquirir Tomografo: {{ hospital.centro_de_imagenes.tomografia.piensa_aquirir_tomografo }}</li>
+                <li><a href="{% url tomografia-editar hospital.id %}">Editar Tomograf&iacute;a</a></li>
 		  	</ul>
 		  	</div>
 	  	</li>
@@ -189,10 +190,11 @@
 		  	<div data-role="collapsible" data-collapsed="false">
 		  	<h4>Resonancia Magn&eacute;tica</h4>
 		  	<ul>
-			  	<li>Posee Resonancia Magn&eacute;tica: {{ hospital.centro_de_imagenes.posee_resonancia_magnetica|yesno }}</li>
+			  	<li>Posee Resonancia Magn&eacute;tica: {{ hospital.centro_de_imagenes.resonancia.posee_resonancia_magnetica|yesno }}</li>
 			  	<li>Piensa Adquirir Resonancia Magn&eacute;tica:
-			  		{{ hospital.centro_de_imagenes.piensa_aquirir_resonancia }}
+			  		{{ hospital.centro_de_imagenes.resonancia.piensa_aquirir_resonancia }}
 			  	</li>
+                <li><a href="{% url resonancia-editar hospital.id %}">Editar Resonanc&iacute;a</a></li>
 		  	</ul>
 		  	</div>
 	  	</li>
@@ -200,10 +202,11 @@
 		  	<div data-role="collapsible" data-collapsed="false">
 		  	<h4>Fluoroscopia</h4>
 		  	<ul>
-			  	<li>Posee Fluoroscopio: {{ hospital.centro_de_imagenes.posee_fluoroscopio|yesno }}</li>
+			  	<li>Posee Fluoroscopio: {{ hospital.centro_de_imagenes.fluoroscopia.posee_fluoroscopio|yesno }}</li>
 			  	<li>Piensa Adquirir Fluoroscopio:
-			  		{{ hospital.centro_de_imagenes.piensa_aquirir_fluoroscopio }}
+			  		{{ hospital.centro_de_imagenes.fluoroscopia.piensa_aquirir_fluoroscopio }}
 			  	</li>
+                <li><a href="{% url fluoroscopia-editar hospital.id %}">Editar Fluoroscop&iacute;a</a></li>
 		  	</ul>
 		  	</div>
 	  	</li>
@@ -211,11 +214,12 @@
 		  	<div data-role="collapsible" data-collapsed="false">
 		  	<h4>Densitometr&iacute;a</h4>
 		  	<ul>
-			  	<li>Posee Densit&oacute;metro: {{ hospital.centro_de_imagenes.posee_densitometro|yesno }}</li>
-			  	<li>Tipo de Densit&oacute;metro: {{ hospital.centro_de_imagenes.get_tipo_densitometro_display }}</li>
+			  	<li>Posee Densit&oacute;metro: {{ hospital.centro_de_imagenes.densitometria.posee_densitometro|yesno }}</li>
+			  	<li>Tipo de Densit&oacute;metro: {{ hospital.centro_de_imagenes.densitometria.get_tipo_densitometro_display }}</li>
 			  	<li>Piensa Adquirir Densit&oacute;metro:
-			  		{{ hospital.centro_de_imagenes.piensa_aquirir_densitometro }}
+			  		{{ hospital.centro_de_imagenes.densitometria.piensa_aquirir_densitometro }}
 			  	</li>
+                <li><a href="{% url densitometria-editar hospital.id %}">Editar Densitometr&iacute;a</a></li>
 		  	</ul>
 		  	</div>
 	  	</li>
@@ -223,11 +227,12 @@
 		  	<div data-role="collapsible" data-collapsed="false">
 		  	<h4>Mamograf&iacute;a</h4>
 		  	<ul>
-			  	<li>Posee Mamografo: {{ hospital.centro_de_imagenes.posee_mamografo|yesno }}</li>
-			  	<li>Tipo de Mamografo: {{ hospital.centro_de_imagenes.get_tipo_mamografo_display }}</li>
+			  	<li>Posee Mamografo: {{ hospital.centro_de_imagenes.mamografia.posee_mamografo|yesno }}</li>
+			  	<li>Tipo de Mamografo: {{ hospital.centro_de_imagenes.mamografia.get_tipo_mamografo_display }}</li>
 			  	<li>Piensa Adquirir Mamografo:
-			  		{{ hospital.centro_de_imagenes.piensa_aquirir_mamografo }}
+			  		{{ hospital.centro_de_imagenes.mamografia.piensa_aquirir_mamografo }}
 			  	</li>
+                <li><a href="{% url mamografia-editar hospital.id %}">Editar Mamograf&iacute;a</a></li>
 		  	</ul>
 		  	</div>
 	  	</li>
@@ -235,11 +240,12 @@
 		  	<div data-role="collapsible" data-collapsed="false">
 		  	<h4>Ecograf&iacute;a</h4>
 		  	<ul>
-			  	<li>Posee Ultrasonido: {{ hospital.centro_de_imagenes.posee_ultrasonido|yesno }}</li>
-			  	<li>Alg&uacute;n Ultrasonido es 4D: {{ hospital.centro_de_imagenes.algun_ultrasonido_4D|yesno }}</li>
+			  	<li>Posee Ultrasonido: {{ hospital.centro_de_imagenes.ecografia.posee_ultrasonido|yesno }}</li>
+			  	<li>Alg&uacute;n Ultrasonido es 4D: {{ hospital.centro_de_imagenes.ecografia.algun_ultrasonido_4D|yesno }}</li>
 			  	<li>Piensa Adquirir Ultrasonido:
-			  		{{ hospital.centro_de_imagenes.piensa_aquirir_ultrasonido }}
+			  		{{ hospital.centro_de_imagenes.ecografia.piensa_aquirir_ultrasonido }}
 			  	</li>
+			  	<li><a href="{% url ecografia-editar hospital.id %}">Editar Ecograf&iacute;a</a></li>
 		  	</ul>
 		  	</div>
 	  	</li>

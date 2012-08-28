@@ -7,7 +7,8 @@ from contactos.views import LoginRequiredView, ContactoCreateView
 from hospital.forms import (HospitalForm, AdministracionForm, QuirofanoForm,
     CentroDeImagenesForm, HospitalizacionForm)
 from hospital.models import (Administracion, CentroDeImagenes, Hospitalizacion,
-                             Quirofano)
+                             Quirofano, Tomografia, ResonanciaMagenetica,
+    Densitometria, Fluoroscopia, Ecografia, Mamografia)
 from django.http import HttpResponseRedirect
 
 class HospitalCreateView(CreateView, LoginRequiredView):
@@ -353,4 +354,34 @@ class QuirofanoUpdateView(UpdateView, LoginRequiredView):
     
     model = Quirofano
     form_class = QuirofanoForm
+    template_name = 'jqm/form.html'
+
+class TomografiaUpdateView(UpdateView, LoginRequiredView):
+    
+    model = Tomografia
+    template_name = 'jqm/form.html'
+
+class ResonanciaUpdateView(UpdateView, LoginRequiredView):
+    
+    model = ResonanciaMagenetica
+    template_name = 'jqm/form.html'
+
+class DensitometriaUpdateView(UpdateView, LoginRequiredView):
+    
+    model = Densitometria
+    template_name = 'jqm/form.html'
+
+class FluoroscopiaUpdateView(UpdateView, LoginRequiredView):
+    
+    model = Fluoroscopia
+    template_name = 'jqm/form.html'
+
+class MamografiaUpdateView(UpdateView, LoginRequiredView):
+    
+    model = Mamografia
+    template_name = 'jqm/form.html'
+
+class EcografiaUpdateView(UpdateView, LoginRequiredView):
+    
+    model = Ecografia
     template_name = 'jqm/form.html'

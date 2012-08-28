@@ -7,7 +7,9 @@ from hospital.views import (HospitalCreateView, HospitalDetailView, HospitalUpda
     SecretariaQuirofanoCreateView, JefeImagenesCreateView,
     SecretariaImagenesCreateView, InstrumentistaCreateView, SocioCreateView,
     DirectorMedicoCreateView, HospitalizadorCreateView, CirujanoCreateView,
-    LicenciadoQuirofanoCreateView, RadiologoCreateView, TecnicoCreateView)
+    LicenciadoQuirofanoCreateView, RadiologoCreateView, TecnicoCreateView,
+    TomografiaUpdateView, MamografiaUpdateView, EcografiaUpdateView,
+    FluoroscopiaUpdateView, DensitometriaUpdateView, ResonanciaUpdateView)
 
 urlpatterns = patterns('',
     
@@ -40,6 +42,24 @@ urlpatterns = patterns('',
     
     url(r'^imagenes/(?P<pk>\d+)/editar$',
         CentroDeImagenesUpdateView.as_view(), name='imagenes-editar'),
+    
+    url(r'^imagenes/(?P<pk>\d+)/tomografia/editar$',
+        TomografiaUpdateView.as_view(), name='tomografia-editar'),
+    
+    url(r'^imagenes/(?P<pk>\d+)/mamografia/editar$',
+        MamografiaUpdateView.as_view(), name='mamografia-editar'),
+    
+    url(r'^imagenes/(?P<pk>\d+)/ecografia/editar$',
+        EcografiaUpdateView.as_view(), name='ecografia-editar'),
+    
+    url(r'^imagenes/(?P<pk>\d+)/fluoroscopia/editar$',
+        FluoroscopiaUpdateView.as_view(), name='fluoroscopia-editar'),
+    
+    url(r'^imagenes/(?P<pk>\d+)/densitometria/editar$',
+        DensitometriaUpdateView.as_view(), name='densitometria-editar'),
+    
+    url(r'^imagenes/(?P<pk>\d+)/resonancia/editar$',
+        ResonanciaUpdateView.as_view(), name='resonancia-editar'),
     
     url(r'^imagenes/(?P<hospital>\d+)/jefe$',
         JefeImagenesCreateView.as_view(), name='jefe-imagenes-agregar'),

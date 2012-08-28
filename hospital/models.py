@@ -43,12 +43,12 @@ class Quirofano(models.Model):
 
 Hospital.quirofano = property(lambda h: Quirofano.objects.get_or_create(hospital=h)[0])
 
+TIPOS_ANALISIS = (
+    ('A', u'Análogo'),
+    ('D', u'Digital'),
+)
+
 class CentroDeImagenes(models.Model):
-    
-    TIPOS_ANALISIS = (
-        ('A', u'Análogo'),
-        ('D', u'Digital'),
-    )
     
     hospital = models.OneToOneField(Hospital, primary_key=True, on_delete=models.CASCADE)
     jefe = models.ForeignKey(Contacto, null=True, blank=True, related_name="jefe_imagenes")
@@ -56,20 +56,98 @@ class CentroDeImagenes(models.Model):
     radiologos = models.ManyToManyField(Contacto, related_name="radiologos")
     secretaria = models.ForeignKey(Contacto, null=True, blank=True, related_name="secretaria_imagenes")
     cantidad_de_equipos = models.IntegerField(default=0, blank=True)
+    
+    @permalink
+    def get_absolute_url(self):
+        
+        """Obtiene la URL absoluta"""
+        
+        return 'hospital', [self.hospital.id]
+
+Hospital.centro_de_imagenes = property(lambda h: CentroDeImagenes.objects.get_or_create(hospital=h)[0])
+
+class Tomografia(models.Model):
+    
+    centro_de_imagenes = models.OneToOneField(CentroDeImagenes, primary_key=True, on_delete=models.CASCADE)
     posee_tomografo = models.NullBooleanField()
     marca_tomografo = models.CharField(max_length=50, blank=True)
     piensa_aquirir_tomografo = models.CharField(max_length=50, blank=True)
+    
+    @permalink
+    def get_absolute_url(self):
+        
+        """Obtiene la URL absoluta"""
+        
+        return 'hospital', [self.hospital.id]
+
+CentroDeImagenes.tomografia = property(lambda h: Tomografia.objects.get_or_create(centro_de_imagenes=h)[0])
+
+class ResonanciaMagenetica(models.Model):
+    
+    centro_de_imagenes = models.OneToOneField(CentroDeImagenes, primary_key=True, on_delete=models.CASCADE)
     posee_resonancia_magnetica = models.NullBooleanField()
     piensa_aquirir_resonancia = models.CharField(max_length=50, blank=True)
+    
+    @permalink
+    def get_absolute_url(self):
+        
+        """Obtiene la URL absoluta"""
+        
+        return 'hospital', [self.hospital.id]
+
+CentroDeImagenes.resonancia = property(lambda h: ResonanciaMagenetica.objects.get_or_create(centro_de_imagenes=h)[0])
+
+class Fluoroscopia(models.Model):
+    
+    centro_de_imagenes = models.OneToOneField(CentroDeImagenes, primary_key=True, on_delete=models.CASCADE)
     posee_fluoroscopio = models.NullBooleanField()
     tipo_fluoroscopio = models.CharField(max_length=1, choices=TIPOS_ANALISIS, blank=True)
     piensa_aquirir_fluoroscopio = models.CharField(max_length=50, blank=True)
+    
+    @permalink
+    def get_absolute_url(self):
+        
+        """Obtiene la URL absoluta"""
+        
+        return 'hospital', [self.hospital.id]
+
+CentroDeImagenes.fluoroscopia = property(lambda h: Fluoroscopia.objects.get_or_create(centro_de_imagenes=h)[0])
+
+class Densitometria(models.Model):
+    
+    centro_de_imagenes = models.OneToOneField(CentroDeImagenes, primary_key=True, on_delete=models.CASCADE)
     posee_densitometro = models.NullBooleanField()
     tipo_densitometro = models.CharField(max_length=1, choices=TIPOS_ANALISIS, blank=True)
     piensa_aquirir_densitometro = models.CharField(max_length=50, blank=True)
+    
+    @permalink
+    def get_absolute_url(self):
+        
+        """Obtiene la URL absoluta"""
+        
+        return 'hospital', [self.hospital.id]
+
+CentroDeImagenes.densitometria = property(lambda h: Densitometria.objects.get_or_create(centro_de_imagenes=h)[0])
+
+class Mamografia(models.Model):
+    
+    centro_de_imagenes = models.OneToOneField(CentroDeImagenes, primary_key=True, on_delete=models.CASCADE)
     posee_mamografo = models.NullBooleanField()
     tipo_mamografo = models.CharField(max_length=1, choices=TIPOS_ANALISIS, blank=True)
     piensa_aquirir_mamografo = models.CharField(max_length=50, blank=True)
+    
+    @permalink
+    def get_absolute_url(self):
+        
+        """Obtiene la URL absoluta"""
+        
+        return 'hospital', [self.hospital.id]
+
+CentroDeImagenes.mamografia = property(lambda h: Mamografia.objects.get_or_create(centro_de_imagenes=h)[0])
+
+class Ecografia(models.Model):
+    
+    centro_de_imagenes = models.OneToOneField(CentroDeImagenes, primary_key=True, on_delete=models.CASCADE)
     posee_ultrasonido = models.NullBooleanField()
     cantidad_ultrasonidos = models.IntegerField(default=0, blank=True)
     algun_ultrasonido_4D = models.NullBooleanField()
@@ -82,7 +160,7 @@ class CentroDeImagenes(models.Model):
         
         return 'hospital', [self.hospital.id]
 
-Hospital.centro_de_imagenes = property(lambda h: CentroDeImagenes.objects.get_or_create(hospital=h)[0])
+CentroDeImagenes.Ecografia = property(lambda h: Ecografia.objects.get_or_create(centro_de_imagenes=h)[0])
 
 class Hospitalizacion(models.Model):
     

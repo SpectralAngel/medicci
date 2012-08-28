@@ -35,6 +35,7 @@ class CentroDeImagenesForm(HospitalBaseForm):
     class Meta:
         
         model = CentroDeImagenes
+        exclude = ('tecnicos', 'radiologos', 'secretaria', 'jefe')
 
 class HospitalizacionForm(HospitalBaseForm):
     
