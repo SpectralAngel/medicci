@@ -76,8 +76,8 @@ class AdministradorCreateView(HospitalBaseView):
     
     def form_valid(self, form):
         
-        """Guarda el objeto generado :class:`User` que esta utilizando la aplicación
-        como vendedor asignado a este contacto
+        """Guarda el objeto generado colocando el :class:`User` que esta
+        utilizando la aplicación como vendedor asignado a este contacto
         """
         
         self.object = form.save()
@@ -91,8 +91,8 @@ class PropietarioCreateView(HospitalBaseView):
     
     def form_valid(self, form):
         
-        """Guarda el objeto generado :class:`User` que esta utilizando la aplicación
-        como vendedor asignado a este contacto
+        """Guarda el objeto generado colocando el :class:`User` que esta
+        utilizando la aplicación como vendedor asignado a este contacto
         """
         
         self.object = form.save()
@@ -106,8 +106,8 @@ class JefeComprasCreateView(HospitalBaseView):
     
     def form_valid(self, form):
         
-        """Guarda el objeto generado :class:`User` que esta utilizando la aplicación
-        como vendedor asignado a este contacto
+        """Guarda el objeto generado colocando el :class:`User` que esta
+        utilizando la aplicación como vendedor asignado a este contacto
         """
         
         self.object = form.save()
@@ -121,8 +121,8 @@ class JefeQuirofanoCreateView(HospitalBaseView):
     
     def form_valid(self, form):
         
-        """Guarda el objeto generado :class:`User` que esta utilizando la aplicación
-        como vendedor asignado a este contacto
+        """Guarda el objeto generado colocando el :class:`User` que esta
+        utilizando la aplicación como vendedor asignado a este contacto
         """
         
         self.object = form.save()
@@ -136,13 +136,28 @@ class InstrumentistaCreateView(HospitalBaseView):
     
     def form_valid(self, form):
         
-        """Guarda el objeto generado :class:`User` que esta utilizando la aplicación
-        como vendedor asignado a este contacto
+        """Guarda el objeto generado colocando el :class:`User` que esta
+        utilizando la aplicación como vendedor asignado a este contacto
         """
         
         self.object = form.save()
         self.object.vendedores.add(self.request.user)
-        self.object.instrumentista.add(self.hospital.quirofano)
+        self.object.instrumentistas.add(self.hospital.quirofano)
+        self.object.save()
+        
+        return HttpResponseRedirect(self.get_success_url())
+
+class AnestesiologoCreateView(HospitalBaseView):
+    
+    def form_valid(self, form):
+        
+        """Guarda el objeto generado colocando el :class:`User` que esta
+        utilizando la aplicación como vendedor asignado a este contacto
+        """
+        
+        self.object = form.save()
+        self.object.vendedores.add(self.request.user)
+        self.object.instrumentistas.add(self.hospital.quirofano)
         self.object.save()
         
         return HttpResponseRedirect(self.get_success_url())
@@ -151,8 +166,8 @@ class SecretariaQuirofanoCreateView(HospitalBaseView):
     
     def form_valid(self, form):
         
-        """Guarda el objeto generado :class:`User` que esta utilizando la aplicación
-        como vendedor asignado a este contacto
+        """Guarda el objeto generado colocando el :class:`User` que esta
+        utilizando la aplicación como vendedor asignado a este contacto
         """
         
         self.object = form.save()
@@ -163,12 +178,28 @@ class SecretariaQuirofanoCreateView(HospitalBaseView):
         
         return HttpResponseRedirect(self.get_success_url())
 
-class JefeTecnicoCreateView(HospitalBaseView):
+class LicenciadoQuirofanoCreateView(HospitalBaseView):
     
     def form_valid(self, form):
         
-        """Guarda el objeto generado :class:`User` que esta utilizando la aplicación
-        como vendedor asignado a este contacto
+        """Guarda el objeto generado colocando el :class:`User` que esta
+        utilizando la aplicación como vendedor asignado a este contacto
+        """
+        
+        self.object = form.save()
+        self.object.licenciado_quirofano.add(self.hospital.quirofano)
+        self.object.vendedores.add(self.request.user)
+        self.object.save()
+        self.hospital.administracion.save()
+        
+        return HttpResponseRedirect(self.get_success_url())
+
+class JefeImagenesCreateView(HospitalBaseView):
+    
+    def form_valid(self, form):
+        
+        """Guarda el objeto generado colocando el :class:`User` que esta
+        utilizando la aplicación como vendedor asignado a este contacto
         """
         
         self.object = form.save()
@@ -178,12 +209,12 @@ class JefeTecnicoCreateView(HospitalBaseView):
         
         return HttpResponseRedirect(self.get_success_url())
 
-class SecretariaTecnicoCreateView(HospitalBaseView):
+class SecretariaImagenesCreateView(HospitalBaseView):
     
     def form_valid(self, form):
         
-        """Guarda el objeto generado :class:`User` que esta utilizando la aplicación
-        como vendedor asignado a este contacto
+        """Guarda el objeto generado colocando el :class:`User` que esta
+        utilizando la aplicación como vendedor asignado a este contacto
         """
         
         self.object = form.save()
@@ -197,8 +228,8 @@ class SocioCreateView(HospitalBaseView):
     
     def form_valid(self, form):
         
-        """Guarda el objeto generado :class:`User` que esta utilizando la aplicación
-        como vendedor asignado a este contacto
+        """Guarda el objeto generado colocando el :class:`User` que esta
+        utilizando la aplicación como vendedor asignado a este contacto
         """
         
         self.object = form.save()
@@ -212,6 +243,10 @@ class RadiologoCreateView(HospitalBaseView):
     
     def form_valid(self, form):
         
+        """Guarda el objeto generado colocando el :class:`User` que esta
+        utilizando la aplicación como vendedor asignado a este contacto
+        """
+        
         self.object = form.save()
         self.hospital.centro_de_imagenes.radiologos.add(self.object)
         self.object.vendedores.add(self.request.user)
@@ -222,6 +257,10 @@ class RadiologoCreateView(HospitalBaseView):
 class TecnicoCreateView(HospitalBaseView):
     
     def form_valid(self, form):
+        
+        """Guarda el objeto generado colocando el :class:`User` que esta
+        utilizando la aplicación como vendedor asignado a este contacto
+        """
         
         self.object = form.save()
         self.hospital.centro_de_imagenes.tecnicos.add(self.object)
@@ -234,6 +273,10 @@ class DirectorMedicoCreateView(HospitalBaseView):
     
     def form_valid(self, form):
         
+        """Guarda el objeto generado colocando el :class:`User` que esta
+        utilizando la aplicación como vendedor asignado a este contacto
+        """
+        
         self.object = form.save()
         self.object.director_medico.add(self.hospital.hospitalizacion)
         self.object.vendedores.add(self.request.user)
@@ -245,6 +288,10 @@ class HospitalizadorCreateView(HospitalBaseView):
     
     def form_valid(self, form):
         
+        """Guarda el objeto generado colocando el :class:`User` que esta
+        utilizando la aplicación como vendedor asignado a este contacto
+        """
+        
         self.object = form.save()
         self.object.hospitalizador.add(self.hospital.hospitalizacion)
         self.object.vendedores.add(self.request.user)
@@ -252,12 +299,16 @@ class HospitalizadorCreateView(HospitalBaseView):
         
         return HttpResponseRedirect(self.get_success_url())
 
-class DoctorCreateView(HospitalBaseView):
+class CirujanoCreateView(HospitalBaseView):
     
     def form_valid(self, form):
         
+        """Guarda el objeto generado colocando el :class:`User` que esta
+        utilizando la aplicación como vendedor asignado a este contacto
+        """
+        
         self.object = form.save()
-        self.hospital.quirofano.doctores.add(self.object)
+        self.hospital.quirofano.cirujanos.add(self.object)
         self.object.vendedores.add(self.request.user)
         self.object.save()
         

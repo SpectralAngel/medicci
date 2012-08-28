@@ -93,30 +93,44 @@
 		    	</a>
 		    	{% endif %}
 		    </li>
-		    <li>
-		    	{% if hospital.quirofano.instrumentista == None %}
-		    	<a href="{% url instrumentista-quirofano-agregar hospital.id %}">Agregar Instrumentista</a>
-		    	{% else %}
-		    	<a href="{% url contacto-ver hospital.quirofano.instrumentista.id %}">
-		    	Jefe: {{ hospital.quirofano.instrumentista }}
-		    	</a>
-		    	{% endif %}
-		    </li>
-		    <li>
-		    	{% if hospital.quirofano.jefe == None %}
-		    	<a href="{% url secretaria-quirofano-agregar hospital.id %}">Agregar Secretaria de Quir&oacute;fano</a>
-		    	{% else %}
-		    	<a href="{% url contacto-ver hospital.quirofano.secretaria.id %}">
-		    	Jefe: {{ hospital.quirofano.secretaria }}
-		    	</a>
-		    	{% endif %}
-		    </li>
-		    <li>Doctores: {{ hospital.quirofano.doctores}}</li>
+            <li>
+                {% if hospital.quirofano.secretaria == None %}
+                <a href="{% url secretaria-quirofano-agregar hospital.id %}">Agregar Secretaria de Quir&oacute;fano</a>
+                {% else %}
+                <a href="{% url contacto-ver hospital.quirofano.secretaria.id %}">
+                Secretaria: {{ hospital.quirofano.secretaria }}
+                </a>
+                {% endif %}
+            </li>
+            <li>
+                {% if hospital.quirofano.licenciado == None %}
+                <a href="{% url licenciado-quirofano-agregar hospital.id %}">Agregar Licenciado de Quir&oacute;fano</a>
+                {% else %}
+                <a href="{% url contacto-ver hospital.quirofano.secretaria.id %}">
+                Licenciado: {{ hospital.quirofano.secretaria }}
+                </a>
+                {% endif %}
+            </li>
+            <li>
+                <h4>Instrumentistas:</h4>
+                <ul>
+                {% for instrumentista in hospital.quirofano.instrumentistas.all %}
+                <li><a href="{% url contacto-ver instrumentista.id %}">{{ instrumentista }}</a></li>
+                {% endfor %}
+                <li><a href="{% url instrumentista-quirofano-agregar hospital.id %}">Agregar Instrumentista</a></li>
+                </ul>
+            </li>
+            <li>
+                <h4>Cirujanos:</h4>
+                <ul data-role="listview">
+                {% for cirujano in hospital.quirofano.cirujanos.all %}
+                <li><a href="{% url contacto-ver cirujano.id %}">{{ cirujano }}</a></li>
+                {% endfor %}
+                <li><a href="{% url cirujano-quirofano-agregar hospital.id %}">Agregar Cirujano</a></li>
+                </ul>
+            </li>
 		    <li>N&uacute;mero de Quir&oacute;fanos: {{ hospital.quirofano.numero_de_quirofanos }}</li>
 		    <li>N&uacute;mero de Salas de Parto: {{ hospital.quirofano.salas_de_parto }}</li>
-		    <li>Quir&oacute;nos para procedimientos endoscópicos:
-		    	{{ hospital.quirofano.quirofanos_endoscopicos }}
-		    </li>
 		    <li><a href="{% url quirofano-editar hospital.id %}">Editar Quir&oacute;fano</a></li>
 		  </ul>
 		</div>
@@ -126,7 +140,7 @@
 	  <ul data-role="listview">
       <li>
             {% if hospital.centro_imagenes.jefe == None %}
-            <a href="{% url jefe-imangenes-agregar hospital.id %}">Agregar Jefe del Centro</a>
+            <a href="{% url jefe-imagenes-agregar hospital.id %}">Agregar Jefe del Centro</a>
             {% else %}
             <a href="{% url contacto-ver hospital.centro_de_imagenes.jefe.id %}">
             Jefe: {{ hospital.centro_de_imagenes.jefe }}
@@ -142,8 +156,24 @@
             </a>
             {% endif %}
         </li>
-        <li>T&eacute;cnicos: {{ hospital.centro_de_imagenes.tecnicos }}</li>
-        <li>Radiologos: {{ hospital.centro_de_imagenes.radiologos }}</li>
+        <li>
+            <h4>T&eacute;cnicos:</h4>
+            <ul>
+            {% for tecnico in hospital.centro_de_imagenes.tecnicos.all %}
+            <li><a href="{% url contacto-ver tecnico.id %}">{{ tecnico }}</a></li>
+            {% endfor %}
+            <li><a href="{% url tecnico-imagenes-agregar hospital.id %}">Agregar T&eacute;cnico</a></li>
+            </ul>
+        </li>
+        <li>
+            <h4>Radi&oacute;logos:</h4>
+            <ul>
+            {% for radiologo in hospital.centro_de_imagenes.radiologos.all %}
+            <li><a href="{% url contacto-ver radiologo.id %}">{{ radiologo }}</a></li>
+            {% endfor %}
+            <li><a href="{% url radiologo-agregar hospital.id %}">Agregar Radi&oacute;logo</a></li>
+            </ul>
+        </li>
 	  	<li>Cantidad de Equipos: {{ hospital.centro_de_imagenes.cantidad_de_equipos }}</li>
 	  	<li>
 		  	<div data-role="collapsible" data-collapsed="false">

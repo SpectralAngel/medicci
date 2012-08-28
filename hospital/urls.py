@@ -4,9 +4,10 @@ from hospital.views import (HospitalCreateView, HospitalDetailView, HospitalUpda
     AdministracionUpdateView, CentroDeImagenesUpdateView,
     HospitalizacionUpdateView, QuirofanoUpdateView, PropietarioCreateView,
     JefeComprasCreateView, AdministradorCreateView, JefeQuirofanoCreateView,
-    SecretariaQuirofanoCreateView, JefeTecnicoCreateView,
-    SecretariaTecnicoCreateView, InstrumentistaCreateView, SocioCreateView,
-    DirectorMedicoCreateView, HospitalizadorCreateView)
+    SecretariaQuirofanoCreateView, JefeImagenesCreateView,
+    SecretariaImagenesCreateView, InstrumentistaCreateView, SocioCreateView,
+    DirectorMedicoCreateView, HospitalizadorCreateView, CirujanoCreateView,
+    LicenciadoQuirofanoCreateView, RadiologoCreateView, TecnicoCreateView)
 
 urlpatterns = patterns('',
     
@@ -41,10 +42,16 @@ urlpatterns = patterns('',
         CentroDeImagenesUpdateView.as_view(), name='imagenes-editar'),
     
     url(r'^imagenes/(?P<hospital>\d+)/jefe$',
-        JefeTecnicoCreateView.as_view(), name='jefe-imagenes-agregar'),
+        JefeImagenesCreateView.as_view(), name='jefe-imagenes-agregar'),
+    
+    url(r'^imagenes/(?P<hospital>\d+)/radiologo',
+        RadiologoCreateView.as_view(), name='radiologo-agregar'),
+    
+    url(r'^imagenes/(?P<hospital>\d+)/tecnico',
+        TecnicoCreateView.as_view(), name='tecnico-imagenes-agregar'),
     
     url(r'^imagenes/(?P<hospital>\d+)/jefe$',
-        SecretariaTecnicoCreateView.as_view(), name='secretaria-imagenes-agregar'),
+        SecretariaImagenesCreateView.as_view(), name='secretaria-imagenes-agregar'),
     
     url(r'^hospitalizacion/(?P<hospital>\d+)/director$',
         DirectorMedicoCreateView.as_view(), name='director-medico-agregar'),
@@ -61,9 +68,15 @@ urlpatterns = patterns('',
     url(r'^quirofano/(?P<hospital>\d+)/jefe$',
         JefeQuirofanoCreateView.as_view(), name='jefe-quirofano-agregar'),
     
+    url(r'^quirofano/(?P<hospital>\d+)/licenciado$',
+        LicenciadoQuirofanoCreateView.as_view(), name='licenciado-quirofano-agregar'),
+    
     url(r'^quirofano/(?P<hospital>\d+)/secretaria$',
         SecretariaQuirofanoCreateView.as_view(), name='secretaria-quirofano-agregar'),
     
     url(r'^quirofano/(?P<hospital>\d+)/instrumentista$',
         InstrumentistaCreateView.as_view(), name='instrumentista-quirofano-agregar'),
+    
+    url(r'^quirofano/(?P<hospital>\d+)/cirujano$',
+        CirujanoCreateView.as_view(), name='cirujano-quirofano-agregar'),
 )
