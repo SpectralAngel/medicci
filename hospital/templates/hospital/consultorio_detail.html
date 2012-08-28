@@ -1,0 +1,27 @@
+{% extends 'jqm/simple.html' %}
+{% block title %}{{ hospital }}{% endblock %}
+{% block content %}
+<ul data-role="listview">
+<li>
+    {% if consultario.medico == None %}
+    <a href="{% url medico-consultorio-agregar consultorio.id %}">Agregar M&eacute;dico</a>
+    {% else %}
+    <a href="{% url contacto-ver consultorio.medico.id %}">
+    M&eacute;dico: {{ consultorio.medico }}
+    </a>
+    {% endif %}
+</li>
+<li>
+    {% if consultorio.secretaria == None %}
+    <a href="{% url administrador-agregar consultorio.id %}">Agregar Secretaria</a>
+    {% else %}
+    <a href="{% url contacto-ver consultorio.secretaria.id %}">
+    Secretaria: {{ consultorio.secretaria }}
+    </a>
+    {% endif %}
+</li>
+</ul>
+{% endblock %}
+
+{% block navmenu %}
+{% endblock %}

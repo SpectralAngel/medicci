@@ -9,7 +9,9 @@ from hospital.views import (HospitalCreateView, HospitalDetailView, HospitalUpda
     DirectorMedicoCreateView, HospitalizadorCreateView, CirujanoCreateView,
     LicenciadoQuirofanoCreateView, RadiologoCreateView, TecnicoCreateView,
     TomografiaUpdateView, MamografiaUpdateView, EcografiaUpdateView,
-    FluoroscopiaUpdateView, DensitometriaUpdateView, ResonanciaUpdateView)
+    FluoroscopiaUpdateView, DensitometriaUpdateView, ResonanciaUpdateView,
+    ConsultorioCreateView, ConsultorioDetailView, MedicoConsultorioCreateView,
+    SecretariaConsultorioCreateView)
 
 urlpatterns = patterns('',
     
@@ -99,4 +101,16 @@ urlpatterns = patterns('',
     
     url(r'^quirofano/(?P<hospital>\d+)/cirujano$',
         CirujanoCreateView.as_view(), name='cirujano-quirofano-agregar'),
+    
+    url(r'^consultorio/(?P<hospital>\d+)/agregar$',
+        ConsultorioCreateView.as_view(), name='consultorio-agregar'),
+    
+    url(r'^consultorio/(?P<pk>\d+)$',
+        ConsultorioDetailView.as_view(), name='consultorio'),
+    
+    url(r'^consultorio/(?P<pk>\d+)/medico$',
+        MedicoConsultorioCreateView.as_view(), name='medico-consultorio-agregar'),
+    
+    url(r'^consultorio/(?P<pk>\d+)/secretaria$',
+        SecretariaConsultorioCreateView.as_view(), name='secretaria-consultorio-agregar'),
 )

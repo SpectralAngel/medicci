@@ -181,3 +181,21 @@ class Hospitalizacion(models.Model):
         return 'hospital', [self.hospital.id]
 
 Hospital.hospitalizacion = property(lambda h: Hospitalizacion.objects.get_or_create(hospital=h)[0])
+
+class Consultorio(models.Model):
+    
+    hospital = models.ForeignKey(Hospital, related_name="consultorios")
+    medico = models.ForeignKey(Contacto, null=True, blank=True, related_name="consultorios")
+    secretaria = models.ForeignKey(Contacto, null=True, blank=True, related_name="secretaria_consultorio")
+    
+    @permalink
+    def get_absolute_url(self):
+        
+        return 'consultorio', [self.id]
+    
+    def __unicode__(self):
+        
+        if self.medico != None:
+            return u"{0} en {1}".format(self.medico, self.hospital)
+        
+        return u"{0}".format(self.hospital)

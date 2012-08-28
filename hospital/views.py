@@ -2,13 +2,14 @@
 from contactos.models import (Hospital, Zona)
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
-from django.views.generic import (UpdateView, DetailView, CreateView)
+from django.views.generic import (UpdateView, DetailView, CreateView,
+                                  RedirectView)
 from contactos.views import LoginRequiredView, ContactoCreateView
 from hospital.forms import (HospitalForm, AdministracionForm, QuirofanoForm,
     CentroDeImagenesForm, HospitalizacionForm)
 from hospital.models import (Administracion, CentroDeImagenes, Hospitalizacion,
                              Quirofano, Tomografia, ResonanciaMagenetica,
-    Densitometria, Fluoroscopia, Ecografia, Mamografia)
+    Densitometria, Fluoroscopia, Ecografia, Mamografia, Consultorio)
 from django.http import HttpResponseRedirect
 
 class HospitalCreateView(CreateView, LoginRequiredView):
@@ -385,3 +386,84 @@ class EcografiaUpdateView(UpdateView, LoginRequiredView):
     
     model = Ecografia
     template_name = 'jqm/form.html'
+
+class ConsultorioCreateView(RedirectView):
+    
+    def get_context_data(self, **kwargs):
+        
+        context = super(ConsultorioCreateView, self).get_context_data(**kwargs)
+        context['hospital'] = self.hospital
+        return context
+    
+    def dispatch(self, *args, **kwargs):
+        
+        """Obtiene el :class:`Hospital` que se entrego como argumento en la
+        url"""
+        
+        self.hospital = get_object_or_404(Hospital, pk=kwargs['hospital'])
+        return super(ConsultorioCreateView, self).dispatch(*args, **kwargs)
+    
+    def get_redirect_url(self, **kwargs):
+        
+        """Obtiene la :class:`Dosis` desde la base de datos, la marca como
+        suministrada, estampa la hora y el :class:`User` que la suministro"""
+        
+        consultorio = Consultorio()
+        consultorio.hospital = self.hospital
+        consultorio.save()
+        return reverse('consultorio', args=[consultorio.id])
+
+class ConsultorioBaseView(ContactoCreateView):
+    
+    def get_context_data(self, **kwargs):
+        
+        context = super(ConsultorioBaseView, self).get_context_data(**kwargs)
+        context['consultorio'] = self.consultorio
+        return context
+    
+    def dispatch(self, *args, **kwargs):
+        
+        """Obtiene el :class:`Consultorio` que se entrego como argumento en la
+        url"""
+        
+        self.consultorio = get_object_or_404(Consultorio, pk=kwargs['consultorio'])
+        return super(ConsultorioBaseView, self).dispatch(*args, **kwargs)
+    
+    def get_success_url(self):
+        
+        return reverse('consultorio', args=[self.consultorio.id])
+
+class MedicoConsultorioCreateView(ConsultorioBaseView):
+    
+    def form_valid(self, form):
+        
+        """Guarda el objeto generado colocando el :class:`User` que esta
+        utilizando la aplicación como vendedor asignado a este contacto
+        """
+        
+        self.object = form.save()
+        self.object.consultorios.add(self.consultorio)
+        self.object.vendedores.add(self.request.user)
+        self.object.save()
+        
+        return HttpResponseRedirect(self.get_success_url())
+
+class SecretariaConsultorioCreateView(ConsultorioBaseView):
+    
+    def form_valid(self, form):
+        
+        """Guarda el objeto generado colocando el :class:`User` que esta
+        utilizando la aplicación como vendedor asignado a este contacto
+        """
+        
+        self.object = form.save()
+        self.object.secretaria_consultorio.add(self.consultorio)
+        self.object.vendedores.add(self.request.user)
+        self.object.save()
+        
+        return HttpResponseRedirect(self.get_success_url())
+
+class ConsultorioDetailView(DetailView, LoginRequiredView):
+    
+    model = Consultorio
+    context_object_name = 'consultorio'

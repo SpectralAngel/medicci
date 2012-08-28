@@ -252,6 +252,15 @@
 	    <li><a href="{% url imagenes-editar hospital.id %}">Editar Centro de Im&aacute;genes</a></li>
 	  </ul>
     </li>
+    <li>
+      <h3>Consultorios</h3>
+      <ul data-role="listview">
+        {% for consultorio in hospital.consultorios.all %}
+        <li><a href="{% url consultorio consultorio.id %}">{{ consultorio }}</a></li>
+        {% endfor %}
+        <li><a href="{% url consultorio-agregar hospital.id %}">Agregar Consultorio</a></li>
+      </ul>
+    </li>
   </ul>
 {% endblock %}
 
