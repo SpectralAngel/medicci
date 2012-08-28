@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import patterns, url
 from hospital.views import (HospitalCreateView, HospitalDetailView, HospitalUpdateView,
-    AdministracionUpdateView, CentroDeImagenesUpdateView, CentroTecnicoUpdateView,
+    AdministracionUpdateView, CentroDeImagenesUpdateView,
     HospitalizacionUpdateView, QuirofanoUpdateView, PropietarioCreateView,
     JefeComprasCreateView, AdministradorCreateView, JefeQuirofanoCreateView,
     SecretariaQuirofanoCreateView, JefeTecnicoCreateView,
@@ -40,14 +40,11 @@ urlpatterns = patterns('',
     url(r'^imagenes/(?P<pk>\d+)/editar$',
         CentroDeImagenesUpdateView.as_view(), name='imagenes-editar'),
     
-    url(r'^tecnico/(?P<pk>\d+)/editar$',
-        CentroTecnicoUpdateView.as_view(), name='tecnico-editar'),
+    url(r'^imagenes/(?P<hospital>\d+)/jefe$',
+        JefeTecnicoCreateView.as_view(), name='jefe-imagenes-agregar'),
     
-    url(r'^tecnico/(?P<hospital>\d+)/jefe$',
-        JefeTecnicoCreateView.as_view(), name='jefe-tecnico-agregar'),
-    
-    url(r'^tecnico/(?P<hospital>\d+)/jefe$',
-        SecretariaTecnicoCreateView.as_view(), name='secretaria-tecnico-agregar'),
+    url(r'^imagenes/(?P<hospital>\d+)/jefe$',
+        SecretariaTecnicoCreateView.as_view(), name='secretaria-imagenes-agregar'),
     
     url(r'^hospitalizacion/(?P<hospital>\d+)/director$',
         DirectorMedicoCreateView.as_view(), name='director-medico-agregar'),

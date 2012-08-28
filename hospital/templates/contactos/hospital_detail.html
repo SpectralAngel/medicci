@@ -80,34 +80,6 @@
 	  	</div>
     </li>
     <li>
-      <div data-role="collapsible">
-		  <h3>Centro T&eacute;cnico</h3>
-		  <ul data-role="listview">
-		    <li>
-		    	{% if hospital.centro_tecnico.jefe == None %}
-		    	<a href="{% url jefe-tecnico-agregar hospital.id %}">Agregar Jefe T&eacute;cnico</a>
-		    	{% else %}
-		    	<a href="{% url contacto-ver hospital.centro_tecnico.jefe.id %}">
-		    	Jefe: {{ hospital.centro_tecnico.jefe }}
-		    	</a>
-		    	{% endif %}
-		    </li>
-		    <li>
-		    	{% if hospital.centro_tecnico.secretaria == None %}
-		    	<a href="{% url secretaria-tecnico-agregar hospital.id %}">Agregar Secretaria</a>
-		    	{% else %}
-		    	<a href="{% url contacto-ver hospital.centro_tecnico.secretaria.id %}">
-		    	Jefe: {{ hospital.centro_tecnico.secretaria }}
-		    	</a>
-		    	{% endif %}
-		    </li>
-		    <li>T&eacute;cnicos: {{ hospital.centro_tecnico.tecnicos }}</li>
-		    <li>Radiologos: {{ hospital.centro_tecnico.radiologos }}</li>
-		    <li><a href="{% url tecnico-editar hospital.id %}">Editar Centro T&eacute;cnico</a></li>
-		  </ul>
-	  </div>
-    </li>
-    <li>
     	<div data-role="collapsible">
 		  <h3>Quir&oacute;fano</h3>
 		  <ul data-role="listview">
@@ -152,6 +124,26 @@
     <li>
 	  <h3>Centro de Im&aacute;genes</h3>
 	  <ul data-role="listview">
+      <li>
+            {% if hospital.centro_imagenes.jefe == None %}
+            <a href="{% url jefe-imangenes-agregar hospital.id %}">Agregar Jefe del Centro</a>
+            {% else %}
+            <a href="{% url contacto-ver hospital.centro_de_imagenes.jefe.id %}">
+            Jefe: {{ hospital.centro_de_imagenes.jefe }}
+            </a>
+            {% endif %}
+        </li>
+        <li>
+            {% if hospital.centro_de_imagenes.secretaria == None %}
+            <a href="{% url secretaria-imagenes-agregar hospital.id %}">Agregar Secretaria</a>
+            {% else %}
+            <a href="{% url contacto-ver hospital.centro_de_imagenes.secretaria.id %}">
+            Jefe: {{ hospital.centro_de_imagenes.secretaria }}
+            </a>
+            {% endif %}
+        </li>
+        <li>T&eacute;cnicos: {{ hospital.centro_de_imagenes.tecnicos }}</li>
+        <li>Radiologos: {{ hospital.centro_de_imagenes.radiologos }}</li>
 	  	<li>Cantidad de Equipos: {{ hospital.centro_de_imagenes.cantidad_de_equipos }}</li>
 	  	<li>
 		  	<div data-role="collapsible" data-collapsed="false">

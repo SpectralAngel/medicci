@@ -4,8 +4,8 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
 from django.views.generic import (UpdateView, DetailView, CreateView)
 from contactos.views import LoginRequiredView, ContactoCreateView
-from hospital.forms import (HospitalForm, AdministracionForm,
-    CentroDeImagenesForm, HospitalizacionForm, CentroTecnicoForm, QuirofanoForm)
+from hospital.forms import (HospitalForm, AdministracionForm, QuirofanoForm,
+    CentroDeImagenesForm, HospitalizacionForm)
 from hospital.models import (Administracion, CentroDeImagenes, Hospitalizacion,
                              Quirofano)
 from django.http import HttpResponseRedirect
@@ -302,10 +302,4 @@ class QuirofanoUpdateView(UpdateView, LoginRequiredView):
     
     model = Quirofano
     form_class = QuirofanoForm
-    template_name = 'jqm/form.html'
-
-class CentroTecnicoUpdateView(UpdateView, LoginRequiredView):
-    
-    model = CentroTecnico
-    form_class = CentroTecnicoForm
     template_name = 'jqm/form.html'
