@@ -49,6 +49,10 @@ class CentroDeImagenes(models.Model):
     )
     
     hospital = models.OneToOneField(Hospital, primary_key=True, on_delete=models.CASCADE)
+    jefe = models.ForeignKey(Contacto, null=True, blank=True, related_name="jefe_imagenes")
+    tecnicos = models.ManyToManyField(Contacto, related_name="tecnicos")
+    radiologos = models.ManyToManyField(Contacto, related_name="radiologos")
+    secretaria = models.ForeignKey(Contacto, null=True, blank=True, related_name="secretaria_imagenes")
     cantidad_de_equipos = models.IntegerField(default=0, blank=True)
     posee_tomografo = models.NullBooleanField()
     marca_tomografo = models.CharField(max_length=50, blank=True)
@@ -77,23 +81,6 @@ class CentroDeImagenes(models.Model):
         return 'hospital', [self.hospital.id]
 
 Hospital.centro_de_imagenes = property(lambda h: CentroDeImagenes.objects.get_or_create(hospital=h)[0])
-
-class CentroTecnico(models.Model):
-    
-    hospital = models.OneToOneField(Hospital, primary_key=True, on_delete=models.CASCADE)
-    jefe = models.ForeignKey(Contacto, null=True, blank=True)
-    tecnicos = models.ManyToManyField(Contacto, related_name="tecnicos")
-    radiologos = models.ManyToManyField(Contacto, related_name="radiologs")
-    secretaria = models.ForeignKey(Contacto, null=True, blank=True, related_name="secretaria_tecnico")
-    
-    @permalink
-    def get_absolute_url(self):
-        
-        """Obtiene la URL absoluta"""
-        
-        return 'hospital', [self.hospital.id]
-
-Hospital.centro_tecnico = property(lambda h: CentroTecnico.objects.get_or_create(hospital=h)[0])
 
 class Hospitalizacion(models.Model):
     

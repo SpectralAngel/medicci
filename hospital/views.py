@@ -172,7 +172,7 @@ class JefeTecnicoCreateView(HospitalBaseView):
         """
         
         self.object = form.save()
-        self.object.centroTecnicos.add(self.hospital.centro_tecnico)
+        self.object.jefe_de_imagenes.add(self.hospital.centro_tecnico)
         self.object.vendedores.add(self.request.user)
         self.object.save()
         
@@ -188,7 +188,7 @@ class SecretariaTecnicoCreateView(HospitalBaseView):
         
         self.object = form.save()
         self.object.vendedores.add(self.request.user)
-        self.object.secretaria_tecnico.add(self.hospital.centro_tecnico)
+        self.object.secretaria_imagenes.add(self.hospital.centro_tecnico)
         self.object.save()
         
         return HttpResponseRedirect(self.get_success_url())
@@ -213,7 +213,7 @@ class RadiologoCreateView(HospitalBaseView):
     def form_valid(self, form):
         
         self.object = form.save()
-        self.hospital.centro_tecnico.radiologos.add(self.object)
+        self.hospital.centro_de_imagenes.radiologos.add(self.object)
         self.object.vendedores.add(self.request.user)
         self.object.save()
         
@@ -224,7 +224,7 @@ class TecnicoCreateView(HospitalBaseView):
     def form_valid(self, form):
         
         self.object = form.save()
-        self.hospital.centro_tecnico.tecnicos.add(self.object)
+        self.hospital.centro_de_imagenes.tecnicos.add(self.object)
         self.object.vendedores.add(self.request.user)
         self.object.save()
         
