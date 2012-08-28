@@ -6,8 +6,8 @@ from django.views.generic import (UpdateView, DetailView, CreateView)
 from contactos.views import LoginRequiredView, ContactoCreateView
 from hospital.forms import (HospitalForm, AdministracionForm,
     CentroDeImagenesForm, HospitalizacionForm, CentroTecnicoForm, QuirofanoForm)
-from hospital.models import (Administracion, CentroDeImagenes, CentroTecnico,
-                             Hospitalizacion, Quirofano)
+from hospital.models import (Administracion, CentroDeImagenes, Hospitalizacion,
+                             Quirofano)
 from django.http import HttpResponseRedirect
 
 class HospitalCreateView(CreateView, LoginRequiredView):
