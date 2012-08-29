@@ -108,9 +108,9 @@ urlpatterns = patterns('',
     url(r'^consultorio/(?P<pk>\d+)$',
         ConsultorioDetailView.as_view(), name='consultorio'),
     
-    url(r'^consultorio/(?P<pk>\d+)/medico$',
+    url(r'^consultorio/(?P<consultorio>\d+)/medico$',
         MedicoConsultorioCreateView.as_view(), name='medico-consultorio-agregar'),
     
-    url(r'^consultorio/(?P<pk>\d+)/secretaria$',
+    url(r'^consultorio/(?P<consultorio>\d+)/secretaria$',
         SecretariaConsultorioCreateView.as_view(), name='secretaria-consultorio-agregar'),
 )
