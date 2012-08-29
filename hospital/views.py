@@ -324,7 +324,7 @@ class HospitalUpdateView(UpdateView, LoginRequiredView):
     
     def get_context_data(self, **kwargs):
         
-        context = super(HospitalCreateView, self).get_context_data(**kwargs)
+        context = super(HospitalUpdateView, self).get_context_data(**kwargs)
         context['title'] = u"Medicci - Actualizar {0}".format(self.object)
         return context
 
