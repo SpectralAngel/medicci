@@ -15,6 +15,7 @@ from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.generic import (ListView, UpdateView, DetailView, CreateView,
     RedirectView, View, TemplateView)
+from datetime import date
 
 class LoginRequiredView(View):
     
@@ -47,6 +48,15 @@ class ContactoCreateView(CreateView, LoginRequiredView):
         context = super(ContactoCreateView, self).get_context_data(**kwargs)
         context['title'] = u"Medicci - Agregar Contacto"
         return context
+    
+    def get_form_kwargs(self):
+        
+        """Agrega la fecha de nacimiento de manera predeterminada para evitar
+        errores"""
+
+        kwargs = super(BaseCreateView, self).get_form_kwargs()
+        kwargs.update({'initial':{'nacimiento':date.today()}})
+        return kwargs
     
     def get_form(self, form_class):
         
