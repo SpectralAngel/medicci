@@ -54,7 +54,7 @@ class ContactoCreateView(CreateView, LoginRequiredView):
         """Agrega la fecha de nacimiento de manera predeterminada para evitar
         errores"""
 
-        kwargs = super(BaseCreateView, self).get_form_kwargs()
+        kwargs = super(ContactoCreateView, self).get_form_kwargs()
         kwargs.update({'initial':{'nacimiento':date.today()}})
         return kwargs
     
