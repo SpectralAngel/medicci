@@ -198,4 +198,4 @@ class Consultorio(models.Model):
         if self.medico != None:
             return u"{0} en {1}".format(self.medico, self.hospital)
         
-        return u"{0}".format(self.hospital)
+        return u"Consultorio en {0} Sin Doctor".format(self.hospital)
